@@ -8,6 +8,7 @@ const baseTowelProperties = {
   upc: { type: "string" },
   name: { type: "string" },
   quantity: { type: "number" },
+  manufacturer: { type: "string" },
 };
 const manufacturerObj = {
   type: "object",
@@ -15,23 +16,15 @@ const manufacturerObj = {
     name: { type: "string" },
   },
 };
-const manufacturerRef = {
-  type: "string",
-};
 
 const towelPropertiesWithManufacturerObj = {
   ...baseTowelProperties,
   manufacturer: manufacturerObj,
 };
 
-const towelPropertiesWithManufacturerRef = {
-  ...baseTowelProperties,
-  manufacturer: manufacturerRef,
-};
-
 const bodyCreateJsonSchema = {
   type: "object",
-  properties: objectWithoutKey(towelPropertiesWithManufacturerRef, "_id"),
+  properties: objectWithoutKey(baseTowelProperties, "_id"),
   required: ["upc", "name", "manufacturer", "quantity"],
 };
 
@@ -112,7 +105,7 @@ const deleteSchema = {
   response: {
     200: {
       type: "object",
-      properties: towelPropertiesWithManufacturerRef,
+      properties: towelPropertiesWithManufacturerObj,
     },
     ...error,
   },

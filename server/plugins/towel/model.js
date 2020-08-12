@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const towels = {
   name: "towels",
   alias: "Towel",
@@ -16,8 +18,8 @@ const towels = {
     },
     // We can add references to other Schemas like-so
     manufacturer: {
-      ref: "manufacturers",
-      type: "string",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Manufacturer",
       validateExistance: true,
     },
   },

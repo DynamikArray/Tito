@@ -12,7 +12,7 @@ const manufacturerPlugin = async (fastify, opts) => {
   //bring in our service and pass it fastify so it can check for ready!
   const manufacturerService = new ManufacturerService(fastify);
 
-  //create
+  // (c) create
   fastify.post("/", { schema: createSchema }, async (request, reply) => {
     const { body } = request;
     const createdManufacturer = await manufacturerService.create({
@@ -21,18 +21,21 @@ const manufacturerPlugin = async (fastify, opts) => {
     reply.code(201).send(createdManufacturer);
   });
 
+  // (r) read - GetAll
   fastify.get("/", { schema: getAllSchema }, async (request, reply) => {
     const { filter } = request.query;
     const manufacturers = await manufacturerService.getAll({ filter });
     reply.code(200).send(manufacturers);
   });
 
+  // (r) read - GetOne
   fastify.get("/:id", { schema: getOneSchema }, async (request, reply) => {
     const { id } = request.params;
     const manufacturer = await manufacturerService.getOne({ id });
     reply.code(200).send(manufacturer);
   });
 
+  // (U) update
   fastify.put("/:id", { schema: updateSchema }, async (request, reply) => {
     const { id } = request.params;
     const manufacturer = request.body;
@@ -43,6 +46,7 @@ const manufacturerPlugin = async (fastify, opts) => {
     reply.code(200).send(updatedManufacturer);
   });
 
+  // (D) Delete
   fastify.delete("/:id", { schema: deleteSchema }, async (request, reply) => {
     const { id } = request.params;
     const deleted = await manufacturerService.delete({ id });

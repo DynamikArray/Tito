@@ -10,6 +10,7 @@ const mongooseConfig = {
     },
   },
   models,
+  useNameAndAlias: true,
 };
 
 module.exports = mongooseConfig;

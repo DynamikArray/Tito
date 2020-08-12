@@ -1,12 +1,12 @@
 class ManufacturerService {
   constructor(fastify) {
     if (!fastify.ready) throw new Error("Not Ready from fastify");
-    this.fastify = fastify;
+    this.mongoose = fastify.mongoose;
   }
 
   async create({ manufacturer }) {
     try {
-      const { Manufacturer } = this.fastify.mongoose;
+      const { Manufacturer } = this.mongoose;
       const newManufacturer = await Manufacturer.create(manufacturer);
       return newManufacturer;
     } catch (err) {
@@ -16,7 +16,7 @@ class ManufacturerService {
 
   async getAll({ filter = "" }) {
     try {
-      const { Manufacturer } = this.fastify.mongoose;
+      const { Manufacturer } = this.mongoose;
       const manufacturers = await Manufacturer.find({
         name: new RegExp(filter, "i"),
       });
@@ -28,7 +28,7 @@ class ManufacturerService {
 
   async getOne({ id }) {
     try {
-      const { Manufacturer } = this.fastify.mongoose;
+      const { Manufacturer } = this.mongoose;
       const manufacturer = await Manufacturer.findById(id);
       return manufacturer;
     } catch (err) {
@@ -42,7 +42,7 @@ class ManufacturerService {
       return manufacturerBefore;
 
     try {
-      const { Manufacturer } = this.fastify.mongoose;
+      const { Manufacturer } = this.mongoose;
       const manufacturerAfter = await Manufacturer.findByIdAndUpdate(
         manufacturerBefore._id,
         { $set: { ...manufacturer } },
@@ -56,7 +56,7 @@ class ManufacturerService {
 
   async delete({ id }) {
     try {
-      const { Manufacturer } = this.fastify.mongoose;
+      const { Manufacturer } = this.mongoose;
       const manufacturer = await Manufacturer.findByIdAndDelete(id);
       if (!manufacturer)
         return { error: "Manufacturer with that Id, not found!" };

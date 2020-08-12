@@ -7,13 +7,6 @@ const manufacturers = {
       required: true,
     },
   },
-  virtualize: (schema) => {
-    schema.virtual("towels", {
-      ref: "towels",
-      localField: "_id",
-      foreignField: "manufacturer",
-    });
-  },
 };
 
 module.exports = manufacturers;

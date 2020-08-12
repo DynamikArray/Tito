@@ -3,19 +3,20 @@ const mongoose = require("mongoose");
 class TowelService {
   constructor(fastify) {
     if (!fastify.ready) throw new Error("Not Ready from fastify");
-    this.fastify = fastify;
+    this.mongoose = fastify.mongoose;
   }
 
   async create({ towel }) {
     try {
-      const towelDoc = new this.fastify.mongoose.Towel({
+      const towelDoc = new this.mongoose.Towel({
         ...towel,
       });
+
       const newTowel = await towelDoc.save();
       if (newTowel._id) {
-        const towel = await this.fastify.mongoose.Towel.findById(
-          newTowel._id
-        ).populate("manufacturer");
+        const towel = await this.mongoose.Towel.findById(newTowel._id).populate(
+          "manufacturer"
+        );
         return towel;
       }
       return false;
@@ -26,7 +27,7 @@ class TowelService {
 
   async getAll({ filter = "" }) {
     try {
-      const { Towel } = this.fastify.mongoose;
+      const { Towel } = this.mongoose;
       const towels = await Towel.find({
         name: new RegExp(filter, "i"),
       }).populate("manufacturer");
@@ -38,8 +39,9 @@ class TowelService {
 
   async getOne({ id }) {
     try {
-      const { Towel } = this.fastify.mongoose;
+      const { Towel } = this.mongoose;
       const towel = await Towel.findById(id).populate("manufacturer");
+      if (!towel) throw Error("No Towel with that Id found!");
       return towel;
     } catch (err) {
       throw err;
@@ -47,11 +49,12 @@ class TowelService {
   }
 
   async update({ id, towel = {} }) {
-    const towelBefore = await this.getOne({ id }).populate("manufacturer");
+    const { Towel } = this.mongoose;
+    const towelBefore = await Towel.findById(id);
     if (Object.entries(towelBefore).length === 0) return towelBefore;
 
     try {
-      const { Towel } = this.fastify.mongoose;
+      const { Towel } = this.mongoose;
       const towelAfter = await Towel.findByIdAndUpdate(
         towelBefore._id,
         { $set: { ...towel } },
@@ -65,7 +68,7 @@ class TowelService {
 
   async delete({ id }) {
     try {
-      const { Towel } = this.fastify.mongoose;
+      const { Towel } = this.mongoose;
       const towel = await Towel.findByIdAndDelete(id).populate("manufacturer");
       if (!towel) return { error: "Towel with that Id, not found!" };
       return towel;
