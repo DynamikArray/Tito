@@ -1,0 +1,22 @@
+{
+  "name": "tito",
+  "version": "1.0.0",
+  "description": "Towels In, Towels out",
+  "main": "index.js",
+  "scripts": {
+    "start:server": "nodemon server/start.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brian Ridsdale",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "@hapi/boom": "^9.1.0",
+    "dotenv": "^8.2.0",
+    "fastify": "^3.2.0",
+    "fastify-swagger": "^3.3.0",
+    "mongoose": "^5.9.28"
+  }
+}
