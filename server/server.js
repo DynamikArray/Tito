@@ -1,6 +1,6 @@
 const Fastify = require("fastify");
 
-const build = async () => {
+const server = async () => {
   //setup our fastify options
   const fastify = Fastify({ logger: true });
 
@@ -26,4 +26,4 @@ const build = async () => {
   return fastify;
 };
 
-module.exports = { build };
+module.exports = { server };

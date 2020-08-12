@@ -41,6 +41,7 @@ const towelPlugin = async (fastify, opts) => {
   fastify.delete("/:id", { schema: deleteSchema }, async (request, reply) => {
     const { id } = request.params;
     const deleted = await towelService.delete({ id });
+    if (deleted.error) reply.code(500).send({ message: deleted.error });
     reply.code(200).send(deleted);
   });
 };

@@ -55,6 +55,7 @@ class TowelService {
     try {
       const { Towel } = this.fastify.mongoose;
       const towel = await Towel.findByIdAndDelete(id);
+      if (!towel) return { error: "Towel with that Id, not found!" };
       return towel;
     } catch (err) {
       throw err;

@@ -4,10 +4,10 @@ const PORT = process.env.PORT || "8000";
 const IPADDRESS = process.env.IP_ADDRESS || "localhost";
 
 //GET OUR SERVER BUILD FUNCTION
-const { build } = require("./server");
+const { server } = require("./server");
 
 //START OUR SERVER with the apporiate PORT, IP_ADDRESS
-build().then(async (fastify) => {
+server().then(async (fastify) => {
   try {
     await fastify.listen(PORT, IPADDRESS);
     const server = fastify.server.address();
