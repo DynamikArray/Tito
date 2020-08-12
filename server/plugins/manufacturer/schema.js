@@ -1,43 +1,22 @@
 const { objectWithoutKey } = require("../../../util/helpers");
 const error = require("../../../util/errorSchema");
 
-const tags = ["Towel"];
+const tags = ["Manufacturer"];
 
-const baseTowelProperties = {
+const manufacturerProperties = {
   _id: { type: "string" },
-  upc: { type: "string" },
   name: { type: "string" },
-  quantity: { type: "number" },
-};
-const manufacturerObj = {
-  type: "object",
-  properties: {
-    name: { type: "string" },
-  },
-};
-const manufacturerRef = {
-  type: "string",
-};
-
-const towelPropertiesWithManufacturerObj = {
-  ...baseTowelProperties,
-  manufacturer: manufacturerObj,
-};
-
-const towelPropertiesWithManufacturerRef = {
-  ...baseTowelProperties,
-  manufacturer: manufacturerRef,
 };
 
 const bodyCreateJsonSchema = {
   type: "object",
-  properties: objectWithoutKey(towelPropertiesWithManufacturerRef, "_id"),
-  required: ["upc", "name", "manufacturer", "quantity"],
+  properties: objectWithoutKey(manufacturerProperties, "_id"),
+  required: ["name"],
 };
 
 const bodyUpdateJsonSchema = {
   type: "object",
-  properties: towelPropertiesWithManufacturerObj,
+  properties: manufacturerProperties,
 };
 
 const queryStringJsonSchema = {
@@ -61,7 +40,7 @@ const getOneSchema = {
   response: {
     200: {
       type: "object",
-      properties: towelPropertiesWithManufacturerObj,
+      properties: manufacturerProperties,
     },
   },
 };
@@ -74,7 +53,7 @@ const getAllSchema = {
       type: "array",
       items: {
         type: "object",
-        properties: towelPropertiesWithManufacturerObj,
+        properties: manufacturerProperties,
       },
     },
     ...error,
@@ -87,7 +66,7 @@ const createSchema = {
   response: {
     201: {
       type: "object",
-      properties: towelPropertiesWithManufacturerObj,
+      properties: manufacturerProperties,
     },
     ...error,
   },
@@ -100,7 +79,7 @@ const updateSchema = {
   response: {
     200: {
       type: "object",
-      properties: towelPropertiesWithManufacturerObj,
+      properties: manufacturerProperties,
     },
     ...error,
   },
@@ -112,7 +91,7 @@ const deleteSchema = {
   response: {
     200: {
       type: "object",
-      properties: towelPropertiesWithManufacturerRef,
+      properties: manufacturerProperties,
     },
     ...error,
   },

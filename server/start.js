@@ -13,6 +13,9 @@ server().then(async (fastify) => {
     const server = fastify.server.address();
 
     fastify.log.info(`TiTo Running @ ${server.address}:${server.port}`);
+
+    process.on("SIGINT", () => fastify.close());
+    process.on("SIGTERM", () => fastify.close());
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

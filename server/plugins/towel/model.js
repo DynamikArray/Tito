@@ -10,22 +10,16 @@ const towels = {
       type: String,
       required: true,
     },
-    manufacturer: {
-      type: String,
-      required: true,
-    },
     quantity: {
       type: Number,
       required: true,
     },
-    /*
-          // We can add references to other Schemas like-so
-          manufacturer: {
-            type: "ObjectId",
-            ref: "Account",
-            validateExistance: true,
-          },
-          */
+    // We can add references to other Schemas like-so
+    manufacturer: {
+      ref: "manufacturers",
+      type: "string",
+      validateExistance: true,
+    },
   },
 };
 

@@ -11,8 +11,9 @@ const documentation = {
     consumes: ["application/json"],
     produces: ["application/json"],
     tags: [
-      { name: "Utility", description: "Utility related end-points" },
+      { name: "Info", description: "Info and Utility related end-points" },
       { name: "Towel", description: "Towel related end-points" },
+      { name: "Manufacturer", description: "Manufacturer related end-points" },
     ],
     /*
     securityDefinitions: {

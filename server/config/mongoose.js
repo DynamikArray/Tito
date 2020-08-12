@@ -1,6 +1,6 @@
 const models = require("../models");
 
-const mongoose = {
+const mongooseConfig = {
   uri: process.env.MONGO_URI,
   settings: {
     useUnifiedTopology: true,
@@ -12,4 +12,4 @@ const mongoose = {
   models,
 };
 
-module.exports = mongoose;
+module.exports = mongooseConfig;

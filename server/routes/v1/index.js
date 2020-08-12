@@ -1,12 +1,13 @@
 //Main Route Definitions
 const apiRoutes = async (fastify, options) => {
-  //testing routes
-  fastify.register(require("../../plugins/info"), { prefix: "v1" });
   //towels
   fastify.register(require("../../plugins/towel"), { prefix: "v1/towel" });
-  //search
-  //fastify.register(require("./search"), { prefix: "v1/search" });
-  //
+  //manufacturers
+  fastify.register(require("../../plugins/manufacturer"), {
+    prefix: "v1/manufacturer",
+  });
+  //testing routes
+  fastify.register(require("../../plugins/info"), { prefix: "v1" });
 };
 
 module.exports = apiRoutes;
