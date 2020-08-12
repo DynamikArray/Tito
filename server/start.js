@@ -10,7 +10,9 @@ const { build } = require("./server");
 build().then(async (fastify) => {
   try {
     await fastify.listen(PORT, IPADDRESS);
-    fastify.log.info(`server listening on ${fastify.server.address().port}`);
+    const server = fastify.server.address();
+
+    fastify.log.info(`TiTo Running @ ${server.address}:${server.port}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

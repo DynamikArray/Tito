@@ -1,8 +1,11 @@
+const { objectWithoutKey } = require("../../../util/helpers");
+const error = require("../../../util/errorSchema");
+
 const tags = ["Towel"];
 
-//resource properties
 const towelProperties = {
-  id: { type: "string" },
+  _id: { type: "string" },
+  upc: { type: "string" },
   name: { type: "string" },
   manufacturer: { type: "string" },
   quantity: { type: "number" },
@@ -10,8 +13,8 @@ const towelProperties = {
 
 const bodyCreateJsonSchema = {
   type: "object",
-  properties: towelProperties,
-  required: ["name", "manufacturer", "quantity"],
+  properties: objectWithoutKey(towelProperties, "_id"),
+  required: ["upc", "name", "manufacturer", "quantity"],
 };
 
 const bodyUpdateJsonSchema = {
@@ -34,7 +37,6 @@ const paramsJsonSchema = {
   required: ["id"],
 };
 
-/* Full Schemas */
 const getOneSchema = {
   tags,
   params: paramsJsonSchema,
@@ -57,6 +59,7 @@ const getAllSchema = {
         properties: towelProperties,
       },
     },
+    ...error,
   },
 };
 
@@ -68,17 +71,20 @@ const createSchema = {
       type: "object",
       properties: towelProperties,
     },
+    ...error,
   },
 };
 
 const updateSchema = {
   tags,
+  params: paramsJsonSchema,
   body: bodyUpdateJsonSchema,
   response: {
     200: {
       type: "object",
       properties: towelProperties,
     },
+    ...error,
   },
 };
 
@@ -90,6 +96,7 @@ const deleteSchema = {
       type: "object",
       properties: towelProperties,
     },
+    ...error,
   },
 };
 

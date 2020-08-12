@@ -15,25 +15,33 @@ const towelPlugin = async (fastify, opts) => {
   //create
   fastify.post("/", { schema: createSchema }, async (request, reply) => {
     const { body } = request;
-    const insertedId = await towelService.create({ towel: body });
-    fastify.log.info("insertedId", insertedId);
-    return { _id: insertedId };
+    const createdTowel = await towelService.create({ towel: body });
+    reply.code(201).send(createdTowel);
   });
 
   fastify.get("/", { schema: getAllSchema }, async (request, reply) => {
-    return { status: 'Get towels and filter by term "filter" ' };
+    const { filter } = request.query;
+    const towels = await towelService.getAll({ filter });
+    reply.code(200).send(towels);
   });
 
   fastify.get("/:id", { schema: getOneSchema }, async (request, reply) => {
-    return { status: "READ towel" };
+    const { id } = request.params;
+    const towel = await towelService.getOne({ id });
+    reply.code(200).send(towel);
   });
 
   fastify.put("/:id", { schema: updateSchema }, async (request, reply) => {
-    return { status: "UPDATE towel" };
+    const { id } = request.params;
+    const towel = request.body;
+    const updatedTowel = await towelService.update({ id, towel });
+    reply.code(200).send(updatedTowel);
   });
 
   fastify.delete("/:id", { schema: deleteSchema }, async (request, reply) => {
-    return { status: "DELETE towel" };
+    const { id } = request.params;
+    const deleted = await towelService.delete({ id });
+    reply.code(200).send(deleted);
   });
 };
 
