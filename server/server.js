@@ -1,3 +1,4 @@
+const path = require("path");
 const Fastify = require("fastify");
 
 const server = async () => {
@@ -8,6 +9,12 @@ const server = async () => {
   await fastify.register(require("./config/mongoose"));
   //Our Audit Logger attached
   await fastify.register(require("./plugins/audit/config"));
+
+  //static build dir
+  await fastify.register(require("fastify-static"), {
+    root: path.join(__dirname, "../client/dist"),
+    wildcard: false,
+  });
 
   //Swagger documentation
   await fastify.register(
