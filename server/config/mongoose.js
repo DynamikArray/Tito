@@ -1,16 +1,18 @@
-const models = require("../models");
+const fastifyPlugin = require("fastify-plugin");
+const mongoose = require("mongoose");
 
-const mongooseConfig = {
-  uri: process.env.MONGO_URI,
-  settings: {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    config: {
-      autoIndex: true,
-    },
-  },
-  models,
-  useNameAndAlias: true,
-};
-
-module.exports = mongooseConfig;
+async function dbConnector(fastify, options) {
+  try {
+    const url = process.env.MONGO_URI;
+    const db = await mongoose.connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+    });
+    fastify.log.info("Database is connected");
+    fastify.decorate("mongoose", db);
+  } catch (err) {
+    fastify.log.error(err);
+  }
+}
+module.exports = fastifyPlugin(dbConnector);

@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
+const Brand = require("../brand/model");
 
-const towels = {
-  name: "towels",
-  alias: "Towel",
-  schema: {
+const towelSchema = new mongoose.Schema(
+  {
     upc: {
       type: String,
-      required: true,
     },
-    name: {
+    color: {
       type: String,
       required: true,
     },
@@ -16,13 +14,16 @@ const towels = {
       type: Number,
       required: true,
     },
-    // We can add references to other Schemas like-so
-    manufacturer: {
+    brand: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Manufacturer",
+      ref: "Brand",
       validateExistance: true,
+      required: true,
     },
   },
-};
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = towels;
+module.exports = mongoose.model("Towel", towelSchema);

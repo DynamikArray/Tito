@@ -3,40 +3,38 @@ const error = require("../../../util/errorSchema");
 
 const tags = ["Towel"];
 
-const baseTowelProperties = {
+const towelProperties = {
   _id: { type: "string" },
   upc: { type: "string" },
-  name: { type: "string" },
+  color: { type: "string" },
   quantity: { type: "number" },
-  manufacturer: { type: "string" },
+  brand: {
+    type: "object",
+    properties: {
+      name: { type: "string" },
+    },
+  },
+  createdAt: { type: "string" },
+  updatedAt: { type: "string" },
 };
-const manufacturerObj = {
+
+const bodyCreateOrUpateJsonSchema = {
   type: "object",
   properties: {
-    name: { type: "string" },
+    upc: { type: "string" },
+    color: { type: "string" },
+    quantity: { type: "number" },
+    brand: { type: "string" },
   },
-};
-
-const towelPropertiesWithManufacturerObj = {
-  ...baseTowelProperties,
-  manufacturer: manufacturerObj,
-};
-
-const bodyCreateJsonSchema = {
-  type: "object",
-  properties: objectWithoutKey(baseTowelProperties, "_id"),
-  required: ["upc", "name", "manufacturer", "quantity"],
-};
-
-const bodyUpdateJsonSchema = {
-  type: "object",
-  properties: towelPropertiesWithManufacturerObj,
+  required: ["color", "brand", "quantity"],
 };
 
 const queryStringJsonSchema = {
   type: "object",
   properties: {
     filter: { type: "string" },
+    upc: { type: "string" },
+    sort: { type: "string" },
   },
 };
 
@@ -54,7 +52,7 @@ const getOneSchema = {
   response: {
     200: {
       type: "object",
-      properties: towelPropertiesWithManufacturerObj,
+      properties: towelProperties,
     },
   },
 };
@@ -67,7 +65,7 @@ const getAllSchema = {
       type: "array",
       items: {
         type: "object",
-        properties: towelPropertiesWithManufacturerObj,
+        properties: towelProperties,
       },
     },
     ...error,
@@ -76,11 +74,11 @@ const getAllSchema = {
 
 const createSchema = {
   tags,
-  body: bodyCreateJsonSchema,
+  body: bodyCreateOrUpateJsonSchema,
   response: {
     201: {
       type: "object",
-      properties: towelPropertiesWithManufacturerObj,
+      properties: towelProperties,
     },
     ...error,
   },
@@ -89,11 +87,11 @@ const createSchema = {
 const updateSchema = {
   tags,
   params: paramsJsonSchema,
-  body: bodyUpdateJsonSchema,
+  body: { ...bodyCreateOrUpateJsonSchema, required: [] },
   response: {
     200: {
       type: "object",
-      properties: towelPropertiesWithManufacturerObj,
+      properties: towelProperties,
     },
     ...error,
   },
@@ -105,7 +103,7 @@ const deleteSchema = {
   response: {
     200: {
       type: "object",
-      properties: towelPropertiesWithManufacturerObj,
+      properties: towelProperties,
     },
     ...error,
   },

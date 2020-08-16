@@ -6,53 +6,53 @@ const {
   deleteSchema,
 } = require("./schema");
 
-const { ManufacturerService } = require("./service");
+const { BrandService } = require("./service");
 
-const manufacturerPlugin = async (fastify, opts) => {
+const brandPlugin = async (fastify, opts) => {
   //bring in our service and pass it fastify so it can check for ready!
-  const manufacturerService = new ManufacturerService(fastify);
+  const brandService = new BrandService(fastify);
 
   // (c) create
   fastify.post("/", { schema: createSchema }, async (request, reply) => {
     const { body } = request;
-    const createdManufacturer = await manufacturerService.create({
-      manufacturer: body,
+    const createdBrand = await brandService.create({
+      brand: body,
     });
-    reply.code(201).send(createdManufacturer);
+    reply.code(201).send(createdBrand);
   });
 
   // (r) read - GetAll
   fastify.get("/", { schema: getAllSchema }, async (request, reply) => {
     const { filter } = request.query;
-    const manufacturers = await manufacturerService.getAll({ filter });
-    reply.code(200).send(manufacturers);
+    const brands = await brandService.getAll({ filter });
+    reply.code(200).send(brands);
   });
 
   // (r) read - GetOne
   fastify.get("/:id", { schema: getOneSchema }, async (request, reply) => {
     const { id } = request.params;
-    const manufacturer = await manufacturerService.getOne({ id });
-    reply.code(200).send(manufacturer);
+    const brand = await brandService.getOne({ id });
+    reply.code(200).send(brand);
   });
 
   // (U) update
   fastify.put("/:id", { schema: updateSchema }, async (request, reply) => {
     const { id } = request.params;
-    const manufacturer = request.body;
-    const updatedManufacturer = await manufacturerService.update({
+    const brand = request.body;
+    const updatedBrand = await brandService.update({
       id,
-      manufacturer,
+      brand,
     });
-    reply.code(200).send(updatedManufacturer);
+    reply.code(200).send(updatedBrand);
   });
 
   // (D) Delete
   fastify.delete("/:id", { schema: deleteSchema }, async (request, reply) => {
     const { id } = request.params;
-    const deleted = await manufacturerService.delete({ id });
+    const deleted = await brandService.delete({ id });
     if (deleted.error) reply.code(500).send({ message: deleted.error });
     reply.code(200).send(deleted);
   });
 };
 
-module.exports = manufacturerPlugin;
+module.exports = brandPlugin;

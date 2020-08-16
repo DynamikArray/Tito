@@ -1,22 +1,24 @@
 const { objectWithoutKey } = require("../../../util/helpers");
 const error = require("../../../util/errorSchema");
 
-const tags = ["Manufacturer"];
+const tags = ["Brand"];
 
-const manufacturerProperties = {
+const brandProperties = {
   _id: { type: "string" },
   name: { type: "string" },
+  createdAt: { type: "string" },
+  updatedAt: { type: "string" },
 };
 
 const bodyCreateJsonSchema = {
   type: "object",
-  properties: objectWithoutKey(manufacturerProperties, "_id"),
+  properties: { name: { type: "string" } },
   required: ["name"],
 };
 
 const bodyUpdateJsonSchema = {
   type: "object",
-  properties: manufacturerProperties,
+  properties: brandProperties,
 };
 
 const queryStringJsonSchema = {
@@ -40,7 +42,7 @@ const getOneSchema = {
   response: {
     200: {
       type: "object",
-      properties: manufacturerProperties,
+      properties: brandProperties,
     },
   },
 };
@@ -53,7 +55,7 @@ const getAllSchema = {
       type: "array",
       items: {
         type: "object",
-        properties: manufacturerProperties,
+        properties: brandProperties,
       },
     },
     ...error,
@@ -66,7 +68,7 @@ const createSchema = {
   response: {
     201: {
       type: "object",
-      properties: manufacturerProperties,
+      properties: brandProperties,
     },
     ...error,
   },
@@ -79,7 +81,7 @@ const updateSchema = {
   response: {
     200: {
       type: "object",
-      properties: manufacturerProperties,
+      properties: brandProperties,
     },
     ...error,
   },
@@ -91,7 +93,7 @@ const deleteSchema = {
   response: {
     200: {
       type: "object",
-      properties: manufacturerProperties,
+      properties: brandProperties,
     },
     ...error,
   },

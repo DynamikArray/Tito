@@ -20,8 +20,8 @@ const towelPlugin = async (fastify, opts) => {
   });
 
   fastify.get("/", { schema: getAllSchema }, async (request, reply) => {
-    const { filter } = request.query;
-    const towels = await towelService.getAll({ filter });
+    const { filter, upc, sort } = request.query;
+    const towels = await towelService.getAll({ filter, upc, sort });
     reply.code(200).send(towels);
   });
 

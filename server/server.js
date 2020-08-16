@@ -4,14 +4,10 @@ const server = async () => {
   //setup our fastify options
   const fastify = Fastify({ logger: true });
 
-  //Mongo and Mongoose
-  await fastify.register(
-    require("fastify-mongoose-driver").plugin,
-    require("./config/mongoose"),
-    (err) => {
-      if (err) throw err;
-    }
-  );
+  //Mongoose documentation
+  await fastify.register(require("./config/mongoose"));
+  //Our Audit Logger attached
+  await fastify.register(require("./plugins/audit/config"));
 
   //Swagger documentation
   await fastify.register(

@@ -13,7 +13,8 @@ const documentation = {
     tags: [
       { name: "Info", description: "Info and Utility related end-points" },
       { name: "Towel", description: "Towel related end-points" },
-      { name: "Manufacturer", description: "Manufacturer related end-points" },
+      { name: "Brand", description: "Brand related end-points" },
+      { name: "Audit", description: "Audit related end-points" },
     ],
     /*
     securityDefinitions: {
