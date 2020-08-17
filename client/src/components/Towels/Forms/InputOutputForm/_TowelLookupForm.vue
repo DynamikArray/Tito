@@ -1,18 +1,17 @@
 <template>
   <v-card-text key="_TowelLookupForm" class="pa-0">
-    <v-row>
-      <v-col cols="12" class="pb-0 pt-2">
-        <div class="ma-0 text-left text-h5 white--text">
+    <div
+      class="d-flex flex-column  align-center justify-center w-100"
+      :class="scanMethod == 'OUT' ? 'flex-column-reverse' : ''"
+    >
+      <div class="w-100 my-2">
+        <div class="ma-0 text-center text-h5 white--text">
           Lookup Towel by UPC
         </div>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12">
-        <div id="upcWrapper">
+        <div id="upcWrapper" class="w-100">
           <v-text-field
             clearable
-            autofocus
+            :autofocus="scanMethod == 'IN'"
             autocomplete="off"
             hide-details="auto"
             class="mr-2"
@@ -27,32 +26,31 @@
             @keyup="handleUPCSearch"
           ></v-text-field>
         </div>
-      </v-col>
-    </v-row>
+      </div>
 
-    <v-row>
-      <v-col cols="12" class="pb-0 pt-2">
-        <div class="ma-0 text-left text-h5 white--text">
-          Or Lookup Towel by Color
-        </div>
-      </v-col>
-    </v-row>
-    <v-row no-gutters>
-      <v-col cols="12">
-        <div id="colorWrapper" class="">
+      <v-divider class="my-2 w-100"></v-divider>
+
+      <div
+        class="d-flex flex-column align-center justify-center w-100"
+        :class="scanMethod == 'OUT' ? 'mt-5' : 'mt-2'"
+      >
+        <div id="colorWrapper" class="w-100">
           <v-autocomplete
+            label="Search by color"
+            outlined
+            dense
+            :autofocus="scanMethod == 'OUT'"
             class="pa-0"
             :value="selectedTowel"
             @change="onChange"
             :items="items"
             :loading="isLoading"
             :search-input.sync="search"
-            color="white"
             hide-no-data
             hide-selected
             item-text="color"
             item-value="_id"
-            placeholder="Start typing to Search"
+            placeholder="Or Lookup Towel by Color"
             return-object
             height="60px"
           >
@@ -60,15 +58,11 @@
               <AutoCompleteList :towel="item" />
             </template>
           </v-autocomplete>
-        </div>
-      </v-col>
-    </v-row>
 
-    <v-row>
-      <v-col cols="12" class="pa-0">
-        <SelectedTowel :towel="selectedTowel" :onNext="onContinue" />
-      </v-col>
-    </v-row>
+          <SelectedTowel :towel="selectedTowel" :onNext="onContinue" />
+        </div>
+      </div>
+    </div>
   </v-card-text>
 </template>
 
@@ -84,7 +78,8 @@ export default {
   props: {
     upc: [String],
     selectedTowel: [Object, Boolean],
-    showForm: [String]
+    showForm: [String],
+    scanMethod: [String]
   },
   components: {
     SelectedTowel,

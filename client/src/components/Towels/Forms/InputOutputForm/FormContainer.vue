@@ -14,6 +14,7 @@
           :selectedTowel.sync="selectedTowel"
           :upc.sync="upc"
           :showForm.sync="showForm"
+          :scanMethod="scanMethod"
         />
         <TowelQuantityForm
           v-if="showForm === 'QTY'"
