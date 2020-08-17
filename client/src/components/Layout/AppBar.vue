@@ -27,7 +27,7 @@
 
       <v-spacer></v-spacer>
       <div class="d-flex">
-        <!--USER MENU -->
+        <UserMenu />
       </div>
     </v-app-bar>
   </div>
@@ -35,7 +35,11 @@
 
 <script>
 import { mapState } from "vuex";
+import UserMenu from "@/components/User/UserMenu/UserMenu";
 export default {
+  components: {
+    UserMenu
+  },
   computed: {
     ...mapState({
       loading: state => state.api.loading

@@ -10,7 +10,9 @@ class AuditService {
     try {
       const logs = await Audit.find({
         action: new RegExp(action, "i"),
-      }).sort(sort);
+      })
+        .sort(sort)
+        .lean();
       return logs;
     } catch (err) {
       throw err;

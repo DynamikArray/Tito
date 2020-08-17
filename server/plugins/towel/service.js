@@ -13,7 +13,9 @@ class TowelService {
 
       const newTowel = await towelDoc.save();
       if (newTowel._id) {
-        const towel = await Towel.findById(newTowel._id).populate("brand");
+        const towel = await Towel.findById(newTowel._id)
+          .populate("brand")
+          .lean();
 
         await this.audit.log({
           action: "CREATE_TOWEL",
@@ -36,7 +38,8 @@ class TowelService {
         upc: new RegExp(upc, "i"),
       })
         .populate("brand")
-        .sort(sort);
+        .sort(sort)
+        .lean();
       return towels;
     } catch (err) {
       throw err;
@@ -45,7 +48,7 @@ class TowelService {
 
   async getOne({ id }) {
     try {
-      const towel = await Towel.findById(id).populate("brand");
+      const towel = await Towel.findById(id).populate("brand").lean();
       if (!towel) throw Error("No Towel with that Id found!");
       return towel;
     } catch (err) {
@@ -54,7 +57,7 @@ class TowelService {
   }
 
   async update({ id, towel = {} }) {
-    const towelBefore = await Towel.findById(id);
+    const towelBefore = await Towel.findById(id).lean();
     if (Object.entries(towelBefore).length === 0) return towelBefore;
 
     try {
@@ -62,7 +65,9 @@ class TowelService {
         towelBefore._id,
         { $set: { ...towel } },
         { new: true }
-      ).populate("brand");
+      )
+        .populate("brand")
+        .lean();
 
       await this.audit.log({
         action: "UPDATE_TOWEL",
@@ -78,7 +83,7 @@ class TowelService {
 
   async delete({ id }) {
     try {
-      const towel = await Towel.findByIdAndDelete(id).populate("brand");
+      const towel = await Towel.findByIdAndDelete(id).populate("brand").lean();
       if (!towel) return { error: "Towel with that Id, not found!" };
 
       await this.audit.log({

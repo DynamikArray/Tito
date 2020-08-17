@@ -11,12 +11,12 @@ const documentation = {
     consumes: ["application/json"],
     produces: ["application/json"],
     tags: [
-      { name: "Info", description: "Info and Utility related end-points" },
-      { name: "Towel", description: "Towel related end-points" },
-      { name: "Brand", description: "Brand related end-points" },
-      { name: "Audit", description: "Audit related end-points" },
+      { name: "User", description: "User resource related end-points" },
+      { name: "Towel", description: "Towel resource related end-points" },
+      { name: "Brand", description: "Brand resource related end-points" },
+      { name: "Audit", description: "Audit Log resource related end-points" },
     ],
-    /*
+
     securityDefinitions: {
       token: {
         type: "apiKey",
@@ -24,7 +24,6 @@ const documentation = {
         in: "header",
       },
     },
-    */
   },
   exposeRoute: true,
 };

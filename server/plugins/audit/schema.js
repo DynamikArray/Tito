@@ -1,6 +1,7 @@
 const error = require("../../../util/errorSchema");
 
 const tags = ["Audit"];
+const security = [{ token: [] }];
 
 const auditProperties = {
   resourceId: { type: "string" },
@@ -19,6 +20,7 @@ const queryStringJsonSchema = {
 };
 
 const getAllSchema = {
+  security,
   tags,
   querystring: queryStringJsonSchema,
   response: {

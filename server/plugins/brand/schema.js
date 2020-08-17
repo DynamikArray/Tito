@@ -2,6 +2,7 @@ const { objectWithoutKey } = require("../../../util/helpers");
 const error = require("../../../util/errorSchema");
 
 const tags = ["Brand"];
+const security = [{ token: [] }];
 
 const brandProperties = {
   _id: { type: "string" },
@@ -37,6 +38,7 @@ const paramsJsonSchema = {
 };
 
 const getOneSchema = {
+  security,
   tags,
   params: paramsJsonSchema,
   response: {
@@ -48,6 +50,7 @@ const getOneSchema = {
 };
 
 const getAllSchema = {
+  security,
   tags,
   querystring: queryStringJsonSchema,
   response: {
@@ -63,6 +66,7 @@ const getAllSchema = {
 };
 
 const createSchema = {
+  security,
   tags,
   body: bodyCreateJsonSchema,
   response: {
@@ -75,6 +79,7 @@ const createSchema = {
 };
 
 const updateSchema = {
+  security,
   tags,
   params: paramsJsonSchema,
   body: bodyUpdateJsonSchema,
@@ -88,6 +93,7 @@ const updateSchema = {
 };
 
 const deleteSchema = {
+  security,
   tags,
   params: paramsJsonSchema,
   response: {

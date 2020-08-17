@@ -1,19 +1,23 @@
 //Main Route Definitions
 const apiRoutes = async (fastify, options) => {
+  //User
+  await fastify.register(require("../../plugins/user"), {
+    prefix: "v1/user",
+  });
+
   //towels
-  fastify.register(require("../../plugins/towel"), { prefix: "v1/towel" });
+  await fastify.register(require("../../plugins/towel"), {
+    prefix: "v1/towel",
+  });
   //manufacturers
-  fastify.register(require("../../plugins/brand"), {
+  await fastify.register(require("../../plugins/brand"), {
     prefix: "v1/brand",
   });
 
   //auditLog
-  fastify.register(require("../../plugins/audit"), {
+  await fastify.register(require("../../plugins/audit"), {
     prefix: "v1/audit",
   });
-
-  //testing routes
-  fastify.register(require("../../plugins/info"), { prefix: "v1" });
 };
 
 module.exports = apiRoutes;

@@ -25,7 +25,7 @@ class BrandService {
     try {
       const brands = await Brand.find({
         name: new RegExp(filter, "i"),
-      });
+      }).lean();
       return brands;
     } catch (err) {
       throw err;
@@ -34,7 +34,7 @@ class BrandService {
 
   async getOne({ id }) {
     try {
-      const brand = await Brand.findById(id);
+      const brand = await Brand.findById(id).lean();
       return brand;
     } catch (err) {
       throw err;
@@ -50,7 +50,7 @@ class BrandService {
         brandBefore._id,
         { $set: { ...brand } },
         { new: true }
-      );
+      ).lean();
 
       await this.audit.log({
         action: "UPDATE_BRAND",
@@ -66,7 +66,7 @@ class BrandService {
 
   async delete({ id }) {
     try {
-      const brand = await Brand.findByIdAndDelete(id);
+      const brand = await Brand.findByIdAndDelete(id).lean();
       if (!brand) return { error: "Brand with that Id, not found!" };
       await this.audit.log({
         action: "DELETE_BRAND",

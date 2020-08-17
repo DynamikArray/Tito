@@ -7,8 +7,12 @@ const server = async () => {
 
   //Mongoose documentation
   await fastify.register(require("./config/mongoose"));
+
   //Our Audit Logger attached
   await fastify.register(require("./plugins/audit/config"));
+
+  //Our Audit Logger attached
+  await fastify.register(require("./plugins/user/jwt"));
 
   //static build dir
   await fastify.register(require("fastify-static"), {

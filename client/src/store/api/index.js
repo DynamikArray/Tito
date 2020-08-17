@@ -2,10 +2,11 @@ import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
 
-import axiosClient from "@/util/axios";
+import { axiosClient, expiredInterceptor } from "@/util/axios";
 
 import { MAKE_API_CALL } from "./actionTypes";
 import { ADD_API_CALL, REMOVE_API_CALL } from "./mutationTypes";
+import { USER_LOGOUT } from "@/components/User/store/actionTypes";
 
 const api = {
   namespaced: true,
@@ -22,7 +23,13 @@ const api = {
     }
   },
   actions: {
-    async [MAKE_API_CALL]({ commit }, payload) {
+    async [MAKE_API_CALL]({ dispatch, commit }, payload) {
+      const { expired } = expiredInterceptor(() => {
+        if (localStorage.getItem("token")) localStorage.removeItem("token");
+        dispatch(`user/${USER_LOGOUT}`, false, { root: true });
+      });
+      axiosClient.interceptors.response.use(undefined, expired);
+
       const { headers, method, url, params, loading } = payload;
 
       //commit the loading mutation for our indicator
@@ -41,9 +48,15 @@ const api = {
           ...config
         });
       } catch (e) {
-        this.$app.$toastr.e(e.message);
+        if (e.response.status === 401 || e.response.status === 403) {
+          if (this.$app.$router.history.current.name !== "Login")
+            this.$app.$router.push({ path: "login" });
+          this.$app.$toastr.e("You need to be logged in to continue.");
+        } else {
+          console.log(e);
+          if (e.message) this.$app.$toastr.e(e.message);
+        }
         return false;
-        //throw e;
       } finally {
         commit(`${REMOVE_API_CALL}`);
         if (loading) commit(loading, { loading: false }, { root: true });

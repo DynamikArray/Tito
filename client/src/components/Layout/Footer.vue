@@ -7,10 +7,10 @@
         </h4>
       </div>
       <div class="d-flex">
-        <v-btn icon to="/docs" color="-grey -darken-4"
+        <v-btn target="_blank" icon to="/docs"
           ><v-icon>fa-database</v-icon></v-btn
         >
-        <v-btn icon color="-grey -darken-4"
+        <v-btn target="_blank" icon href="http://github.com/DynamikArray/Tito"
           ><v-icon>fab fa-github</v-icon></v-btn
         >
       </div>

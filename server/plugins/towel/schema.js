@@ -1,7 +1,7 @@
-const { objectWithoutKey } = require("../../../util/helpers");
 const error = require("../../../util/errorSchema");
 
 const tags = ["Towel"];
+const security = [{ token: [] }];
 
 const towelProperties = {
   _id: { type: "string" },
@@ -47,6 +47,7 @@ const paramsJsonSchema = {
 };
 
 const getOneSchema = {
+  security,
   tags,
   params: paramsJsonSchema,
   response: {
@@ -58,6 +59,7 @@ const getOneSchema = {
 };
 
 const getAllSchema = {
+  security,
   tags,
   querystring: queryStringJsonSchema,
   response: {
@@ -73,6 +75,7 @@ const getAllSchema = {
 };
 
 const createSchema = {
+  security,
   tags,
   body: bodyCreateOrUpateJsonSchema,
   response: {
@@ -85,6 +88,7 @@ const createSchema = {
 };
 
 const updateSchema = {
+  security,
   tags,
   params: paramsJsonSchema,
   body: { ...bodyCreateOrUpateJsonSchema, required: [] },
@@ -98,6 +102,7 @@ const updateSchema = {
 };
 
 const deleteSchema = {
+  security,
   tags,
   params: paramsJsonSchema,
   response: {
