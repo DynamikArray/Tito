@@ -2,10 +2,11 @@
   "name": "tito",
   "version": "1.0.0",
   "description": "Towels In, Towels out",
-  "main": "index.js",
+  "main": "server/start.js",
   "scripts": {
     "start:server": "nodemon server/start.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "cd client;  npm install --dev ; npm run build"
   },
   "author": "Brian Ridsdale",
   "license": "ISC",
