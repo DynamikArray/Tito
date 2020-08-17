@@ -10,6 +10,7 @@ async function jwtStrategy(fastify, opts) {
       await request.jwtVerify();
     } catch (e) {
       fastify.log.error(e.message);
+      return false;
     }
   });
 }
