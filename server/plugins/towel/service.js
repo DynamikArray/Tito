@@ -19,7 +19,8 @@ class TowelService {
 
         await this.audit.log({
           action: "CREATE_TOWEL",
-          resourceId: towel._id,
+          resourceModel: "towel",
+          _towel: towel._id,
           values: towel,
         });
 
@@ -71,7 +72,8 @@ class TowelService {
 
       await this.audit.log({
         action: "UPDATE_TOWEL",
-        resourceId: towel._id,
+        resourceModel: "towel",
+        _towel: towel._id,
         values: { towelBefore, towelAfter },
       });
 
@@ -88,7 +90,8 @@ class TowelService {
 
       await this.audit.log({
         action: "DELETE_TOWEL",
-        resourceId: towel._id,
+        resourceModel: "towel",
+        _towel: towel._id,
         values: towel,
       });
 

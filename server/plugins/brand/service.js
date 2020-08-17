@@ -12,7 +12,8 @@ class BrandService {
       const newBrand = await Brand.create(brand);
       await this.audit.log({
         action: "CREATE_BRAND",
-        resourceId: newBrand._id,
+        resourceModel: "brand",
+        _brand: newBrand._id,
         values: newBrand,
       });
       return newBrand;
@@ -54,7 +55,8 @@ class BrandService {
 
       await this.audit.log({
         action: "UPDATE_BRAND",
-        resourceId: brandBefore._id,
+        resourceModel: "brand",
+        _brand: brandBefore._id,
         values: { brandBefore, brandAfter },
       });
 
@@ -70,7 +72,8 @@ class BrandService {
       if (!brand) return { error: "Brand with that Id, not found!" };
       await this.audit.log({
         action: "DELETE_BRAND",
-        resourceId: brand._id,
+        resourceModel: "brand",
+        _brand: brand._id,
         values: brand,
       });
       return brand;

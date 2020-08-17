@@ -4,9 +4,11 @@ const tags = ["Audit"];
 const security = [{ token: [] }];
 
 const auditProperties = {
-  resourceId: { type: "string" },
   action: { type: "string" },
+  resourceModel: { type: "string" },
   values: {},
+  _brand: {},
+  _towel: {},
   createdAt: { type: "string" },
   updatedAt: { type: "string" },
 };
