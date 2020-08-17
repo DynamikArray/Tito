@@ -38,6 +38,13 @@ export default {
 </script>
 
 <style>
+.textShadow {
+  text-shadow: #333 1px 1px 1px;
+}
+.w-100 {
+  width: 100%;
+}
+
 .slide-fade-enter-active {
   transition: all 0.3s ease;
 }
@@ -54,11 +61,7 @@ export default {
   font-family: "Roboto", sans-serif;
 }
 
-.textShadow {
-  text-shadow: #333 1px 1px 1px;
-}
-
-.w-100 {
-  width: 100%;
+.toast-container .toast {
+  opacity: 1;
 }
 </style>

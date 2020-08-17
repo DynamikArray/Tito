@@ -5,7 +5,11 @@ Vue.use(Vuex);
 import { MAKE_API_CALL } from "@/store/api/actionTypes";
 
 import { USER_LOGIN, USER_LOGOUT, USER_CHECK } from "./actionTypes";
-import { USER_LOGIN_RESULTS, USER_LOGIN_LOADING } from "./mutationTypes";
+import {
+  USER_LOGIN_RESULTS,
+  USER_LOGIN_LOADING,
+  USER_LOGOUT_RESULTS
+} from "./mutationTypes";
 
 const user = {
   namespaced: true,
@@ -28,6 +32,10 @@ const user = {
     [USER_LOGIN_RESULTS](state, { username, token = false }) {
       state.username = username;
       if (token) localStorage.setItem("token", token);
+    },
+    [USER_LOGOUT_RESULTS](state) {
+      state.username = false;
+      localStorage.removeItem("token");
     }
   },
   actions: {
@@ -57,8 +65,19 @@ const user = {
       return false;
     },
     async [USER_CHECK]({ dispatch, commit }, params) {
-      if (this.state.username) return true;
+      if (!localStorage.getItem("token")) {
+        this.$app.$toastr.Add({
+          name: "loginRequired",
+          title: "Oops, your logged out.",
+          msg: "You must be logged in to continue using the application!",
+          type: "error",
+          timeout: 4000,
+          preventDuplicates: true
+        });
+        return false;
+      }
 
+      if (this.state.username) return true;
       const result = await dispatch(
         `api/${MAKE_API_CALL}`,
         {
@@ -77,9 +96,8 @@ const user = {
       }
       return false;
     },
-    [USER_LOGOUT](/*{dispatch, commit}*/) {
-      this.state.username = false;
-      localStorage.removeItem("token");
+    [USER_LOGOUT]({ commit }) {
+      commit(`${USER_LOGOUT_RESULTS}`);
       if (this.$app.$router.history.current.name !== "Login")
         this.$app.$router.push({ path: "login" });
     }

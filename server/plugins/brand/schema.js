@@ -1,4 +1,3 @@
-const { objectWithoutKey } = require("../../../util/helpers");
 const error = require("../../../util/errorSchema");
 
 const tags = ["Brand"];

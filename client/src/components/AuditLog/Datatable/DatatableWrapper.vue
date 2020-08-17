@@ -7,7 +7,10 @@
       :items="logData"
     >
       <template v-slot:item.values="{ item }">
-        <div class="text-caption">
+        <div class="text-caption" v-if="item.action == 'UPDATE_TOWEL'">
+          {{ formatLogEntry(item).msg | capitalize }}
+        </div>
+        <div class="text-caption" v-else>
           {{ item.values }}
         </div>
       </template>
@@ -22,6 +25,7 @@
 </template>
 
 <script>
+const diff = require("deep-diff").diff;
 import { tableHeaders } from "./tableHeaders";
 export default {
   props: {
@@ -34,6 +38,24 @@ export default {
   computed: {
     logData() {
       return this.logs;
+    }
+  },
+  methods: {
+    formatLogEntry({ values }) {
+      const { towelBefore = false, towelAfter = false } = values;
+      if (towelBefore && towelAfter) {
+        const fields = diff(towelBefore, towelAfter).filter(
+          entry => entry.path != "updatedAt"
+        );
+
+        return (values = fields.map(entry => {
+          return {
+            msg: `${entry.path} updated from ${entry.lhs ||
+              "empty"} to ${entry.rhs || "empty"}`
+          };
+        })).pop();
+      }
+      return values;
     }
   }
 };

@@ -37,7 +37,7 @@ class UserService {
       if (!passValid) return { error: "Invalid Password" };
 
       delete user.password;
-      const token = this.fastify.jwt.sign({ ...user }, { expiresIn: "5m" });
+      const token = this.fastify.jwt.sign({ ...user }, { expiresIn: "30d" });
       return { token, user };
     } catch (err) {
       this.fastify.log.error(err);
@@ -48,7 +48,7 @@ class UserService {
     try {
       const user = await User.findOne({ username }).select("-password").lean();
       if (!user) return { error: "Invalid username" };
-      const token = this.fastify.jwt.sign({ ...user }, { expiresIn: "5m" });
+      const token = this.fastify.jwt.sign({ ...user }, { expiresIn: "30d" });
       return { user: { token, ...user } };
     } catch (err) {
       this.fastify.log.error(err);
