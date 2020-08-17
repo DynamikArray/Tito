@@ -6,7 +6,11 @@ async function jwtStrategy(fastify, opts) {
   });
 
   fastify.decorate("authenticate", async function (request, reply) {
-    await request.jwtVerify();
+    try {
+      await request.jwtVerify();
+    } catch (e) {
+      fastify.log.error(e.message);
+    }
   });
 }
 

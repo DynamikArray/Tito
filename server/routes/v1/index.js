@@ -18,6 +18,9 @@ const apiRoutes = async (fastify, options) => {
   await fastify.register(require("../../plugins/audit"), {
     prefix: "v1/audit",
   });
+
+  //catch all route for loading client application
+  await fastify.get("/*", (request, reply) => reply.sendFile("index.html"));
 };
 
 module.exports = apiRoutes;
