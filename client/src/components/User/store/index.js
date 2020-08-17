@@ -66,14 +66,16 @@ const user = {
     },
     async [USER_CHECK]({ dispatch, commit }, params) {
       if (!localStorage.getItem("token")) {
-        this.$app.$toastr.Add({
-          name: "loginRequired",
-          title: "Oops, your logged out.",
-          msg: "You must be logged in to continue using the application!",
-          type: "error",
-          timeout: 4000,
-          preventDuplicates: true
-        });
+        if (this.$app) {
+          this.$app.$toastr.Add({
+            name: "loginRequired",
+            title: "Oops, your logged out.",
+            msg: "You must be logged in to continue using the application!",
+            type: "error",
+            timeout: 4000,
+            preventDuplicates: true
+          });
+        }
         return false;
       }
 
