@@ -29,6 +29,7 @@ const bodyLoginJsonSchema = {
 
 const registerSchema = {
   tags,
+  security,
   body: bodyRegisterJsonSchema,
   response: {
     201: {
