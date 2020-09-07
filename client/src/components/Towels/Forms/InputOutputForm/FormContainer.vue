@@ -21,7 +21,7 @@
           :selectedTowel.sync="selectedTowel"
           :showForm.sync="showForm"
           :scanMethod="scanMethod"
-          :handleCancel="clearSelectedTowel"
+          :handleSaved="handleSaved"
         />
       </v-slide-y-transition>
     </v-card-text>
@@ -51,7 +51,7 @@ export default {
     TowelQuantityForm
   },
   data: () => ({
-    upc: "",
+    upc: false,
     selectedTowel: false,
     showForm: "LOOKUP"
   }),
@@ -71,8 +71,13 @@ export default {
     handleCancel() {
       this.showForm = "LOOKUP";
       this.selectedTowel = null;
-      this.upc = "";
+      this.upc = false;
       this.$emit("update:dialog", false);
+    },
+    handleSaved() {
+      this.upc = false;
+      this.showForm = "LOOKUP";
+      this.selectedTowel = null;
     },
     clearSelectedTowel() {
       this.selectedTowel = null;

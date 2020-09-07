@@ -16,7 +16,7 @@
             hide-details="auto"
             class="mr-2"
             dense
-            :value="upc"
+            :value="upcValue"
             @input="onUpcChange"
             name="upc"
             label="UPC"
@@ -76,7 +76,7 @@ import AutoCompleteList from "./fields/AutoCompleteList";
 
 export default {
   props: {
-    upc: [String],
+    upc: [Boolean, String],
     selectedTowel: [Object, Boolean],
     showForm: [String],
     scanMethod: [String]
@@ -92,6 +92,10 @@ export default {
     search: null
   }),
   computed: {
+    upcValue() {
+      if (!this.upc) return "";
+      return this.upc;
+    },
     items() {
       return this.towels;
     }

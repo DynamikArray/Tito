@@ -4,7 +4,7 @@
       <v-col cols="12" class="pb-0 pt-2">
         <div class="ma-0 text-left text-body-1">
           <SelectedTowel
-            :handleCancel="handleCancel"
+            :handleSaved="handleSaved"
             :towel="selectedTowel"
             hideOnNext
           />
@@ -70,7 +70,7 @@ import fieldRules from "../fieldRules";
 
 export default {
   props: {
-    handleCancel: [Function],
+    handleSaved: [Function],
     scanMethod: [String],
     selectedTowel: [Object, Boolean]
   },
@@ -122,7 +122,7 @@ export default {
         if (result) {
           this.$toastr.s("Towels Updated");
           this.$store.dispatch(`towels/${SEARCH_TOWELS}`, {});
-          this.handleCancel();
+          this.handleSaved();
         }
       }
     }
