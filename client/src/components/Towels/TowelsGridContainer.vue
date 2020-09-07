@@ -1,7 +1,10 @@
 <template>
   <div class="d-flex flex-column">
-    <div v-if="showHeader" class="d-flex flex-row justify-space-between">
-      <div class="d-flex justify-center align-center">
+    <div
+      v-if="showHeader"
+      class="d-flex flex-row justify-space-between xs-justify-center flex-wrap"
+    >
+      <div class="d-flex justify-center align-center my-3 mx-3">
         <v-card class="">
           <v-card-text class="white--text">
             <div class="d-flex justify-start align-center">
@@ -16,7 +19,7 @@
         </v-card>
       </div>
 
-      <div class="d-flex justify-end align-center">
+      <div class="d-flex justify-end align-center my-3 mx-3">
         <AddTowelModal class="d-flex mx-2" />
         <AddBrandModal class="d-flex mx-2" />
       </div>

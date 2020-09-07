@@ -1,13 +1,13 @@
 <template>
   <v-dialog
     v-model="dialog"
-    width="500"
+    width="450"
     scrollable
     overlay-color="grey darken-2"
     persistent
   >
     <template v-slot:activator="{ on, attrs }">
-      <div class="d-flex align-center justify-center ">
+      <div class="d-flex align-center justify-center flex-wrap ">
         <v-btn
           v-bind="attrs"
           v-on="on"
@@ -18,7 +18,7 @@
           ><v-icon x-large class="mr-2">fa fa-plus-circle</v-icon>Scan In</v-btn
         >
 
-        <div class="mx-10">
+        <div class="mx-10 my-4">
           <h4 class="text-h4 white--text">OR</h4>
         </div>
 
