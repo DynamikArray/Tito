@@ -13,18 +13,7 @@
         <v-img max-width="40px" src="@/assets/images/towels_icon_small.png" />
       </v-app-bar-nav-icon>
       <v-toolbar-title>TiTo</v-toolbar-title>
-      <div class="d-flex ml-4">
-        <v-btn text to="/">
-          <v-icon class="mr-1">fa fa-home</v-icon>Home
-        </v-btn>
-        <v-btn text to="towels">
-          <v-icon class="mr-1">fas fa-layer-group</v-icon>Towels
-        </v-btn>
-        <v-btn text to="audit">
-          <v-icon class="mr-1">fas fa-history</v-icon>Audit
-        </v-btn>
-      </div>
-
+      <NavigationMenu />
       <v-spacer></v-spacer>
       <div class="d-flex">
         <UserMenu />
@@ -36,9 +25,12 @@
 <script>
 import { mapState } from "vuex";
 import UserMenu from "@/components/User/UserMenu/UserMenu";
+import NavigationMenu from "@/components/Layout/NavigationMenu";
+
 export default {
   components: {
-    UserMenu
+    UserMenu,
+    NavigationMenu
   },
   computed: {
     ...mapState({

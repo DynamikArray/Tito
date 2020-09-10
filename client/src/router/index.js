@@ -7,6 +7,15 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: "/letters",
+    name: "Letters",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Letters.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/towels",
     name: "Towels",
     component: () =>
