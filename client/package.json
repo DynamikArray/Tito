@@ -13,11 +13,13 @@
     "date-fns": "^2.15.0",
     "deep-diff": "^1.0.2",
     "lodash.debounce": "^4.0.8",
+    "pdfmake": "^0.2.4",
     "vue": "^2.6.11",
     "vue-barcode-reader": "0.0.3",
     "vue-router": "^3.2.0",
     "vue-toastr": "^2.1.2",
     "vuetify": "^2.3.8",
+    "vuetify-confirm": "^2.0.6",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

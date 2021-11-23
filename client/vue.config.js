@@ -7,7 +7,7 @@ module.exports = {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
     //https: true,
-    host: "192.168.1.100",
+    host: "127.0.0.1",
     port: 8080,
     watchOptions: {
       poll: true
@@ -15,7 +15,10 @@ module.exports = {
     disableHostCheck: false,
     proxy: {
       "/v1": {
-        target: "http://192.168.1.100:4200"
+        target: "http://127.0.0.1:4200"
+      },
+      "/docs": {
+        target: "http://127.0.0.1:4200"
       }
     },
     stats: {

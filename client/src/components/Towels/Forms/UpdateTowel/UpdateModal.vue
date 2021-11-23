@@ -10,7 +10,7 @@
         small
         class="pr-0 pl-2 white--text textShadow"
         style="min-width:35px"
-        color="pink"
+        color="blue"
         dark
         v-bind="attrs"
         v-on="on"

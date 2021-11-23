@@ -31,6 +31,12 @@
               <v-icon class="mr-1">fas fa-sort-alpha-up</v-icon>Letters
             </v-list-item-title>
           </v-list-item>
+
+          <v-list-item key="reports">
+            <v-list-item-title @click="navigateTo('reports')">
+              <v-icon class="mr-1">fas fa-file-alt</v-icon>Reports
+            </v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-menu>

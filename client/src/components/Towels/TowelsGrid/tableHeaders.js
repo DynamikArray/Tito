@@ -37,6 +37,6 @@ export const tableHeaders = [
     value: "action",
     sortable: false,
     align: "center",
-    width: "60px"
+    width: "100px"
   }
 ];

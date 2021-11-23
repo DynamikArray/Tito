@@ -1,3 +1,4 @@
 export const SEARCH_TOWELS = "SEARCH_TOWELS";
 export const CREATE_TOWEL = "CREATE_TOWEL";
 export const UPDATE_TOWEL = "UPDATE_TOWEL";
+export const DELETE_TOWEL = "DELETE_TOWEL";

@@ -10,7 +10,7 @@ const routes = [
     path: "/letters",
     name: "Letters",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Letters.vue"),
+      import(/* webpackChunkName: "letters" */ "../views/Letters.vue"),
     meta: {
       requiresAuth: true
     }
@@ -19,7 +19,7 @@ const routes = [
     path: "/towels",
     name: "Towels",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Towels.vue"),
+      import(/* webpackChunkName: "towels" */ "../views/Towels.vue"),
     meta: {
       requiresAuth: true
     }
@@ -28,7 +28,7 @@ const routes = [
     path: "/audit",
     name: "Audit",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Audit.vue"),
+      import(/* webpackChunkName: "audit" */ "../views/Audit.vue"),
     meta: {
       requiresAuth: true
     }
@@ -36,14 +36,21 @@ const routes = [
   {
     path: "/login",
     name: "Login",
+    component: () => import(/* webpackChunkName: "home" */ "../views/Login.vue")
+  },
+  {
+    path: "/reports",
+    name: "Reports",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Login.vue")
+      import(/* webpackChunkName: "report" */ "../views/Reports.vue"),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/",
     name: "Home",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Home.vue"),
+    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue"),
     meta: {
       requiresAuth: true
     }

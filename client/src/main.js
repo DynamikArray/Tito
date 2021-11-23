@@ -7,6 +7,20 @@ import vuetify from "./plugins/vuetify";
 import("./plugins/vueToastr");
 import("./filters");
 
+import VuetifyConfirm from "vuetify-confirm";
+Vue.use(VuetifyConfirm, {
+  vuetify,
+  buttonTrueText: "Ok",
+  buttonTrueColor: "green",
+  buttonFalseText: "Cancel",
+  buttonFalseColor: "red",
+  color: "red",
+  icon: "fa-exclamation-circle",
+  title: "Are you sure?",
+  width: 350,
+  property: "$confirm"
+});
+
 Vue.config.productionTip = false;
 const app = new Vue({
   router,

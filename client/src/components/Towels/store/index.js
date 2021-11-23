@@ -4,8 +4,14 @@ Vue.use(Vuex);
 
 import { MAKE_API_CALL } from "@/store/api/actionTypes";
 
-import { SEARCH_TOWELS, CREATE_TOWEL, UPDATE_TOWEL } from "./actionTypes";
 import {
+  SEARCH_TOWELS,
+  CREATE_TOWEL,
+  UPDATE_TOWEL,
+  DELETE_TOWEL
+} from "./actionTypes";
+import {
+  REMOVE_TOWEL_FROM_RESULTS,
   SEARCH_TOWELS_RESULTS,
   SEARCH_TOWELS_RESULTS_LOADING
 } from "./mutationTypes";
@@ -19,14 +25,20 @@ const towels = {
   getters: {
     getTowels: state => {
       return state.towels;
+    },
+    getLoading: state => {
+      return state.loading;
     }
   },
   mutations: {
-    [SEARCH_TOWELS_RESULTS_LOADING](state, loading) {
+    [SEARCH_TOWELS_RESULTS_LOADING](state, { loading }) {
       state.loading = loading;
     },
     [SEARCH_TOWELS_RESULTS](state, towels) {
       state.towels = towels;
+    },
+    [REMOVE_TOWEL_FROM_RESULTS](state, towel) {
+      state.towels = state.towels.filter(t => t._id !== towel._id);
     }
   },
   actions: {
@@ -86,6 +98,27 @@ const towels = {
 
       if (result.data) {
         if (result.data._id) return true;
+      }
+    },
+
+    async [DELETE_TOWEL]({ dispatch }, params) {
+      const result = await dispatch(
+        `api/${MAKE_API_CALL}`,
+        {
+          method: "delete",
+          url: `/towel/${params._id}`,
+          params: params,
+          loading: `towels/${SEARCH_TOWELS_RESULTS_LOADING}`
+        },
+        { root: true }
+      );
+
+      if (result.data) {
+        if (result.data._id) {
+          //we need to remove from our state value?
+          this.commit(`towels/${REMOVE_TOWEL_FROM_RESULTS}`, result.data);
+          return true;
+        }
       }
     }
   }

@@ -14,7 +14,10 @@
       </template>
 
       <template v-slot:item.action="{ item }">
-        <UpdateTowel :towel="item" />
+        <div class="d-flex align-center justify-center">
+          <UpdateTowel :towel="item" class="mx-3" />
+          <DeleteTowel :towel="item" class="mx-3" />
+        </div>
       </template>
     </v-data-table>
   </div>
@@ -22,6 +25,7 @@
 
 <script>
 import UpdateTowel from "../Forms/UpdateTowel/UpdateModal";
+import DeleteTowel from "../Forms/DeleteTowel/DeleteTowel";
 
 import { tableHeaders } from "./tableHeaders.js";
 export default {
@@ -30,16 +34,13 @@ export default {
     towels: [Boolean, Array]
   },
   components: {
-    UpdateTowel
+    UpdateTowel,
+    DeleteTowel
   },
   data: () => ({
     headers: tableHeaders
   }),
-  methods: {
-    updateTowel(towel) {
-      console.log("UPDATE THIS TOWEL", towel);
-    }
-  }
+  methods: {}
 };
 </script>
 
