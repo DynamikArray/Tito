@@ -12,6 +12,7 @@
         :search="search"
         disable-pagination
         hide-default-footer
+        ref="inventoryDT"
       >
         <template v-slot:top="{ pagination }">
           <div
@@ -80,13 +81,12 @@ export default {
   },
   methods: {
     async print() {
-      console.log("HAndle creating the printed table");
-      this.printData();
+      const reportData = this.$refs.inventoryDT.$children[0].computedItems;
+      this.printData(reportData);
     },
 
-    printData() {
+    printData(reportData) {
       const _this = this;
-      const reportData = this.towels;
 
       const pdfOptions = {
         pageMargins: [10, 20, 10, 20],
