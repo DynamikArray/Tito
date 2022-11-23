@@ -21,10 +21,7 @@ const server = async () => {
   });
 
   //Swagger documentation
-  await fastify.register(
-    require("fastify-swagger"),
-    require("./config/documentation")
-  );
+  await fastify.register(require("fastify-swagger"), require("./config/documentation"));
 
   //require our routes
   await require("./routes/v1/index")(fastify);

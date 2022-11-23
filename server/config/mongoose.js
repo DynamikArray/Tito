@@ -1,9 +1,11 @@
+const MONGO_URI = "mongodb://mongo-tito:27017/tito";
+
 const fastifyPlugin = require("fastify-plugin");
 const mongoose = require("mongoose");
 
 async function dbConnector(fastify, options) {
   try {
-    const url = process.env.MONGO_URI;
+    const url = MONGO_URI;
     const db = await mongoose.connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

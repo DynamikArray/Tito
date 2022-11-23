@@ -1,8 +1,7 @@
 //GET OUR ENV STUFF
 require("dotenv").config();
 const PORT = process.env.PORT || "8000";
-let IPADDRESS = process.env.IP_ADDRESS || "localhost";
-if (process.env.NODE_ENV === "production") IPADDRESS = "0.0.0.0";
+let IPADDRESS = process.env.IP_ADDRESS || "0.0.0.0";
 
 //GET OUR SERVER BUILD FUNCTION
 const { server } = require("./server");

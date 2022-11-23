@@ -4,7 +4,8 @@
   "description": "Towels In, Towels out",
   "main": "server/start.js",
   "scripts": {
-    "start:server": "nodemon server/start.js",
+    "start:dev": "nodemon -L server/start.js",
+    "start:server": "node server/start.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "cd client;  npm install --dev ; npm run build"
   },
