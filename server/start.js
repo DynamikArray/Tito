@@ -1,6 +1,6 @@
 //GET OUR ENV STUFF
 require("dotenv").config();
-const PORT = process.env.PORT || "8000";
+const PORT = process.env.PORT || "7847";
 let IPADDRESS = process.env.IP_ADDRESS || "0.0.0.0";
 
 //GET OUR SERVER BUILD FUNCTION

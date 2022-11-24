@@ -1,29 +1,4 @@
 version: '3'
-services:
-  tito-api:    
-    image: dynamikarray/tito:latest
-    restart: always
-    build: .
-    ports:
-      - "8000:8000"
-    networks:
-      - tito-net    
-    links:
-      - mongo      
-    depends_on:
-      - mongo                
-
-  ## MONDO DB ##
-  mongo:
-    container_name: mongo-tito
-    restart: always
-    image: mongo    
-    volumes:
-      - "./dbdata:/data/db"
-    ports:
-      - "27017:27017"
-    networks:
-      - tito-net
 
 volumes:
   dbdata:
@@ -32,3 +7,63 @@ volumes:
 networks:
   tito-net:
     driver: bridge
+
+services:
+
+# Traefik
+  reverse-proxy:    
+    hostname: traefik-tito
+    container_name: traefik-tito
+    image: traefik:v2.9 # The official v2 Traefik docker image
+    networks: 
+      - tito-net   
+    # Enables the web UI and tells Traefik to listen to docker
+    command: 
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"      
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"                       
+      # - 
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - /volume1/nasflix/appdata/tito/data_traefik:/etc/traefik
+    restart: unless-stopped
+
+  tito-api:    
+    image: dynamikarray/tito:latest
+    restart: unless-stopped
+    build: .
+    ports:
+      - "7847:7847"
+    networks:
+      - tito-net    
+    links:
+      - mongo      
+    depends_on:  
+      - reverse-proxy
+      - mongo    
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.movies.rule=Host(`tito.home`)"
+      - "traefik.port=7847"       
+
+  ## MONDO DB ##
+  mongo:
+    container_name: mongo-tito
+    restart: unless-stopped
+    image: mongo    
+    volumes:
+      - "./dbdata:/data/db"
+    ports:
+      - "27017:27017"
+    networks:
+      - tito-net
+    depends_on:  
+      - reverse-proxy
+
