@@ -18,7 +18,7 @@ RUN npm install
 WORKDIR /usr/src/app/client
 RUN npm install && npm run build
 
-EXPOSE 8080
+EXPOSE 7847
 
 WORKDIR /usr/src/app
 CMD npm run start:server
