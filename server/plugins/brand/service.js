@@ -10,12 +10,14 @@ class BrandService {
   async create({ brand }) {
     try {
       const newBrand = await Brand.create(brand);
+      /*
       await this.audit.log({
         action: "CREATE_BRAND",
         resourceModel: "brand",
         _brand: newBrand._id,
         values: newBrand,
       });
+      */
       return newBrand;
     } catch (err) {
       throw err;
@@ -53,12 +55,14 @@ class BrandService {
         { new: true }
       ).lean();
 
+      /*
       await this.audit.log({
         action: "UPDATE_BRAND",
         resourceModel: "brand",
         _brand: brandBefore._id,
         values: { brandBefore, brandAfter },
       });
+      */
 
       return brandAfter;
     } catch (err) {
@@ -70,12 +74,14 @@ class BrandService {
     try {
       const brand = await Brand.findByIdAndDelete(id).lean();
       if (!brand) return { error: "Brand with that Id, not found!" };
+      /*
       await this.audit.log({
         action: "DELETE_BRAND",
         resourceModel: "brand",
         _brand: brand._id,
         values: brand,
       });
+      */
       return brand;
     } catch (err) {
       throw err;

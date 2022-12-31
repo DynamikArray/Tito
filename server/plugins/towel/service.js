@@ -13,16 +13,16 @@ class TowelService {
 
       const newTowel = await towelDoc.save();
       if (newTowel._id) {
-        const towel = await Towel.findById(newTowel._id)
-          .populate("brand")
-          .lean();
+        const towel = await Towel.findById(newTowel._id).populate("brand").lean();
 
+        /*
         await this.audit.log({
           action: "CREATE_TOWEL",
           resourceModel: "towel",
           _towel: towel._id,
           values: towel,
         });
+        */
 
         return towel;
       }
@@ -62,20 +62,18 @@ class TowelService {
     if (Object.entries(towelBefore).length === 0) return towelBefore;
 
     try {
-      const towelAfter = await Towel.findByIdAndUpdate(
-        towelBefore._id,
-        { $set: { ...towel } },
-        { new: true }
-      )
+      const towelAfter = await Towel.findByIdAndUpdate(towelBefore._id, { $set: { ...towel } }, { new: true })
         .populate("brand")
         .lean();
 
+      /*
       await this.audit.log({
         action: "UPDATE_TOWEL",
         resourceModel: "towel",
         _towel: towel._id,
         values: { towelBefore, towelAfter },
       });
+      */
 
       return towelAfter;
     } catch (err) {
@@ -88,12 +86,14 @@ class TowelService {
       const towel = await Towel.findByIdAndDelete(id).populate("brand").lean();
       if (!towel) return { error: "Towel with that Id, not found!" };
 
+      /*
       await this.audit.log({
         action: "DELETE_TOWEL",
         resourceModel: "towel",
         _towel: towel._id,
         values: towel,
       });
+      */
 
       return towel;
     } catch (err) {

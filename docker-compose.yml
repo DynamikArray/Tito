@@ -39,8 +39,8 @@ services:
     image: dynamikarray/tito:latest
     restart: unless-stopped
     build: .
-    ports:
-      - "7847:7847"
+    #ports:
+    #  - "7847:7847"
     networks:
       - tito-net    
     links:
@@ -50,7 +50,7 @@ services:
       - mongo    
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.movies.rule=Host(`tito.home`)"
+      - "traefik.http.routers.tito.rule=Host(`tito.home`)"
       - "traefik.port=7847"       
 
   ## MONDO DB ##

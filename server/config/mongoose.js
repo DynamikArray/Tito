@@ -1,4 +1,8 @@
+//FOR DOCKER
 const MONGO_URI = "mongodb://mongo-tito:27017/tito";
+
+// FOR LOCAL DEV
+//  const MONGO_URI = "mongodb://localhost:27017/tito";
 
 const fastifyPlugin = require("fastify-plugin");
 const mongoose = require("mongoose");
