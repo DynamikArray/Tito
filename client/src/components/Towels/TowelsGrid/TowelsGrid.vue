@@ -6,7 +6,16 @@
       :loading="loading"
       loading-text="Searching Database"
       :items="towels"
+      :search="search"
     >
+      <template v-slot:top>
+        <v-text-field v-model="search" label="Search" class="mx-4"></v-text-field>
+      </template>
+
+      <template v-slot:item.location="{ item }">
+        <div class="text-caption">{{ sumLocationQuantities(item) }}</div>
+      </template>
+
       <template v-slot:item.updatedAt="{ item }">
         <div class="text-caption">
           {{ item.updatedAt | dateTime }}
@@ -31,16 +40,21 @@ import { tableHeaders } from "./tableHeaders.js";
 export default {
   props: {
     loading: [Boolean],
-    towels: [Boolean, Array]
+    towels: [Boolean, Array],
   },
   components: {
     UpdateTowel,
-    DeleteTowel
+    DeleteTowel,
   },
   data: () => ({
-    headers: tableHeaders
+    search: "",
+    headers: tableHeaders,
   }),
-  methods: {}
+  methods: {
+    sumLocationQuantities(item) {
+      return (item.location?.home?.quantity || 0) + (item.location?.warehouse?.quantity || 0);
+    },
+  },
 };
 </script>
 

@@ -6,6 +6,10 @@ import vuetify from "./plugins/vuetify";
 
 import("./plugins/vueToastr");
 import("./filters");
+import featureFlagsMixin, { featureFlags } from "./mixins/featureFlagsMixin";
+Vue.use(featureFlagsMixin, {
+  featureFlags,
+});
 
 import VuetifyConfirm from "vuetify-confirm";
 Vue.use(VuetifyConfirm, {
@@ -18,7 +22,7 @@ Vue.use(VuetifyConfirm, {
   icon: "fa-exclamation-circle",
   title: "Are you sure?",
   width: 350,
-  property: "$confirm"
+  property: "$confirm",
 });
 
 Vue.config.productionTip = false;
@@ -26,7 +30,7 @@ const app = new Vue({
   router,
   store,
   vuetify,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");
 
 //Allows us to reference VUE things in our store, like $toastr

@@ -1,35 +1,11 @@
 <template>
   <v-card-text key="_TowelLookupForm" class="pa-0">
-    <div
-      class="d-flex flex-column  align-center justify-center w-100"
-      :class="scanMethod == 'OUT' ? 'flex-column-reverse' : ''"
-    >
-      <div class="w-100 my-2">
-        <div class="ma-0 text-center text-h5 white--text">
-          Lookup Towel by UPC
-        </div>
-        <div id="upcWrapper" class="w-100">
-          <v-text-field
-            clearable
-            :autofocus="scanMethod == 'IN'"
-            autocomplete="off"
-            hide-details="auto"
-            class="mr-2"
-            dense
-            :value="upcValue"
-            @input="onUpcChange"
-            name="upc"
-            label="UPC"
-            hint="Enter the towel UPC"
-            outlined
-            height="60px"
-            @keyup="handleUPCSearch"
-          ></v-text-field>
-        </div>
-      </div>
+    <div class="text-center my-2 mx-2">
+      <h3 v-if="scanMethod === 'IN'">Add more towels to your existing quantites</h3>
+      <h3 v-if="scanMethod === 'OUT'">Remove towels from your existing quantites</h3>
+    </div>
 
-      <v-divider class="my-2 w-100"></v-divider>
-
+    <div class="d-flex flex-column  align-center justify-center w-100">
       <div
         class="d-flex flex-column align-center justify-center w-100"
         :class="scanMethod == 'OUT' ? 'mt-5' : 'mt-2'"
@@ -39,7 +15,7 @@
             label="Search by color"
             outlined
             dense
-            :autofocus="scanMethod == 'OUT'"
+            :autofocus="true"
             class="pa-0"
             :value="selectedTowel"
             @change="onChange"
@@ -62,6 +38,31 @@
           <SelectedTowel :towel="selectedTowel" :onNext="onContinue" />
         </div>
       </div>
+
+      <div class="w-100 my-2" v-if="upcScanningIsEnabled">
+        <v-divider class="my-2 w-100"></v-divider>
+
+        <div class="ma-0 text-center text-h5 white--text">
+          Lookup Towel by UPC
+        </div>
+        <div id="upcWrapper" class="w-100">
+          <v-text-field
+            clearable
+            autocomplete="off"
+            hide-details="auto"
+            class="mr-2"
+            dense
+            :value="upcValue"
+            @input="onUpcChange"
+            name="upc"
+            label="UPC"
+            hint="Enter the towel UPC"
+            outlined
+            height="60px"
+            @keyup="handleUPCSearch"
+          ></v-text-field>
+        </div>
+      </div>
     </div>
   </v-card-text>
 </template>
@@ -79,30 +80,37 @@ export default {
     upc: [Boolean, String],
     selectedTowel: [Object, Boolean],
     showForm: [String],
-    scanMethod: [String]
+    scanMethod: [String],
   },
   components: {
     SelectedTowel,
-    AutoCompleteList
+    AutoCompleteList,
   },
   data: () => ({
     fieldRules,
     towels: [],
     isLoading: false,
-    search: null
+    search: null,
   }),
   computed: {
+    upcScanningIsEnabled() {
+      return !!this.$featureFlags.upcScanningIsEnabled;
+    },
     upcValue() {
       if (!this.upc) return "";
       return this.upc;
     },
     items() {
       return this.towels;
-    }
+    },
   },
   methods: {
     onContinue() {
-      this.$emit("update:showForm", "QTY");
+      if (this.scanMethod === "TRANSFER") {
+        this.$emit("update:showForm", "TRANSFER");
+      } else {
+        this.$emit("update:showForm", "QTY");
+      }
     },
     onChange(val) {
       this.$emit("update:selectedTowel", val);
@@ -115,15 +123,15 @@ export default {
       if (this.upc.length > 5) {
         const towel = await this.$store.dispatch(`towels/${SEARCH_TOWELS}`, {
           upc: this.upc,
-          return: true
+          return: true,
         });
         if (towel.length === 0) this.$toastr.e("No Towel found with given UPC");
         if (towel.length === 1) {
           this.$emit("update:selectedTowel", towel[0]);
-          this.$emit("update:showForm", "QTY");
+          this.onContinue();
         }
       }
-    }, 500)
+    }, 500),
   },
   watch: {
     async search(filter) {
@@ -131,7 +139,7 @@ export default {
       try {
         const items = await this.$store.dispatch(`towels/${SEARCH_TOWELS}`, {
           filter,
-          return: true
+          return: true,
         });
         if (items) this.towels = items;
       } catch (e) {
@@ -139,8 +147,8 @@ export default {
       } finally {
         this.isLoading = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

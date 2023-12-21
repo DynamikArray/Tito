@@ -7,11 +7,33 @@ const towelProperties = {
   _id: { type: "string" },
   upc: { type: "string" },
   color: { type: "string" },
-  quantity: { type: "number" },
+  location: {
+    type: "object",
+    properties: {
+      home: {
+        type: "object",
+        properties: {
+          quantity: { type: "number" },
+        },
+      },
+      warehouse: {
+        type: "object",
+        properties: {
+          quantity: { type: "number" },
+        },
+      },
+    },
+  },
   brand: {
     type: "object",
     properties: {
       name: { type: "string" },
+      retailer: {
+        type: "object",
+        properties: {
+          name: { type: "string" },
+        },
+      },
     },
   },
   createdAt: { type: "string" },
@@ -23,10 +45,26 @@ const bodyCreateOrUpateJsonSchema = {
   properties: {
     upc: { type: "string" },
     color: { type: "string" },
-    quantity: { type: "number" },
     brand: { type: "string" },
+    location: {
+      type: "object",
+      properties: {
+        home: {
+          type: "object",
+          properties: {
+            quantity: { type: "number" },
+          },
+        },
+        warehouse: {
+          type: "object",
+          properties: {
+            quantity: { type: "number" },
+          },
+        },
+      },
+    },
   },
-  required: ["color", "brand", "quantity"],
+  required: ["color"],
 };
 
 const queryStringJsonSchema = {

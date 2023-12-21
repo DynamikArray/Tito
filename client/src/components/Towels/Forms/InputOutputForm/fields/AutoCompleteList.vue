@@ -9,11 +9,22 @@
       </div>
     </div>
     <div class="d-flex flex-column align-end" style="min-width:90px">
-      <div class="d-flex align-center text-caption justify-center">
-        Qty
-      </div>
-      <div class="d-flex align-center text-center text-body-1 justify-center">
-        {{ towel.quantity }}
+      <div class="d-flex">
+        <!--Col 1 -->
+        <div class="d-flex flex-column align-center mx-1">
+          <div class="d-flex text-caption">Home</div>
+          <div class="d-flex text-body-2">
+            {{ getQuantities.home }}
+          </div>
+        </div>
+
+        <!--Col 2 -->
+        <div class="d-flex flex-column align-center mx-1 ">
+          <div class="d-flex text-caption">Warehouse</div>
+          <div class="d-flex text-body-2 ">
+            {{ getQuantities.warehouse }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -22,8 +33,16 @@
 <script>
 export default {
   props: {
-    towel: [Boolean, Object]
-  }
+    towel: [Boolean, Object],
+  },
+  computed: {
+    getQuantities() {
+      return {
+        home: this.towel.location?.home?.quantity || 0,
+        warehouse: this.towel.location?.warehouse?.quantity || 0,
+      };
+    },
+  },
 };
 </script>
 

@@ -5,12 +5,17 @@
     </v-card-title>
 
     <v-card-text style="max-height:300px;" class="px-4">
-      <v-form
-        ref="createBrandForm"
-        v-model="blnValidBrand"
-        lazy-validation
-        @submit.prevent="validateBrand"
-      >
+      <v-form ref="createBrandForm" v-model="blnValidBrand" lazy-validation @submit.prevent="validateBrand">
+        <v-row>
+          <v-col>
+            <RetailerDropdown
+              :rules="fieldRules.retailer"
+              :retailer.sync="brand.retailer"
+              :retailers="retailers"
+            />
+          </v-col>
+        </v-row>
+
         <v-row>
           <v-col>
             <v-text-field
@@ -45,24 +50,35 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { SEARCH_RETAILERS } from "@/components/Retailers/store/actionTypes";
 import { CREATE_BRAND } from "@/components/Brands/store/actionTypes";
+import RetailerDropdown from "@/components/Retailers/Dropdown/RetailerDropdown.vue";
 
 const defaultBrand = {
-  name: ""
+  name: "",
+  retailer: { _id: "" },
 };
 import fieldRules from "./fieldRules";
 
 export default {
   props: {
-    dialog: [Boolean]
+    dialog: [Boolean],
   },
-  components: {},
+  components: { RetailerDropdown },
   data: () => ({
     blnValidBrand: false,
     brand: { ...defaultBrand },
-    fieldRules
+    fieldRules,
   }),
-
+  computed: {
+    ...mapGetters({
+      retailers: "retailers/getRetailers",
+    }),
+  },
+  created() {
+    this.$store.dispatch(`retailers/${SEARCH_RETAILERS}`, {});
+  },
   methods: {
     validateBrand() {
       return this.$refs.createBrandForm.validate();
@@ -72,10 +88,7 @@ export default {
       if (!this.validateBrand()) return false;
 
       const { brand } = this;
-      const result = await this.$store.dispatch(
-        `brands/${CREATE_BRAND}`,
-        brand
-      );
+      const result = await this.$store.dispatch(`brands/${CREATE_BRAND}`, brand);
 
       if (result) {
         this.resetBrand();
@@ -93,8 +106,8 @@ export default {
     },
     updateDialog(val) {
       this.$emit("update:dialog", val);
-    }
-  }
+    },
+  },
 };
 </script>
 

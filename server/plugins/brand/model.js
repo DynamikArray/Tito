@@ -6,6 +6,12 @@ const brandSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    retailer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Retailer",
+      validateExistance: true,
+      required: true,
+    },
   },
   {
     timestamps: true,

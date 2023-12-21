@@ -1,9 +1,6 @@
 <template>
   <div class="d-flex flex-column">
-    <div
-      v-if="showHeader"
-      class="d-flex flex-row justify-space-between xs-justify-center flex-wrap"
-    >
+    <div v-if="showHeader" class="d-flex flex-row justify-space-between xs-justify-center flex-wrap">
       <div class="d-flex justify-center align-center my-3 mx-3">
         <v-card class="">
           <v-card-text class="white--text">
@@ -46,13 +43,13 @@ export default {
   props: {
     showHeader: {
       type: [Boolean],
-      default: true
-    }
+      default: true,
+    },
   },
   components: {
     TowelsGrid,
     AddTowelModal,
-    AddBrandModal
+    AddBrandModal,
   },
   mounted() {
     this.$store.dispatch(`towels/${SEARCH_TOWELS}`, { sort: "-quantity" });
@@ -60,14 +57,18 @@ export default {
   computed: {
     ...mapGetters({
       towels: "towels/getTowels",
-      loading: "towels/getLoading"
+      loading: "towels/getLoading",
     }),
     totalTowels() {
       return this.towels.reduce((acc, towel) => {
-        return Number(acc) + Number(towel.quantity);
+        return (
+          Number(acc) +
+          Number(towel?.location?.home?.quantity || 0) +
+          Number(towel?.location?.warehouse?.quantity || 0)
+        );
       }, 0);
-    }
-  }
+    },
+  },
 };
 </script>
 

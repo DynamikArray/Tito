@@ -1,39 +1,24 @@
 const error = require("../../../util/errorSchema");
 
-const tags = ["Brand"];
+const tags = ["Retailer"];
 const security = [{ token: [] }];
 
-const brandProperties = {
+const retailerProperties = {
   _id: { type: "string" },
   name: { type: "string" },
-  retailer: {
-    type: "object",
-    properties: {
-      _id: { type: "string" },
-      name: { type: "string" },
-    },
-  },
   createdAt: { type: "string" },
   updatedAt: { type: "string" },
 };
 
 const bodyCreateJsonSchema = {
   type: "object",
-  properties: {
-    name: { type: "string" },
-    retailer: {
-      type: "object",
-      properties: {
-        _id: { type: "string" },
-      },
-    },
-  },
+  properties: { name: { type: "string" } },
   required: ["name"],
 };
 
 const bodyUpdateJsonSchema = {
   type: "object",
-  properties: brandProperties,
+  properties: retailerProperties,
 };
 
 const queryStringJsonSchema = {
@@ -58,7 +43,7 @@ const getOneSchema = {
   response: {
     200: {
       type: "object",
-      properties: brandProperties,
+      properties: retailerProperties,
     },
   },
 };
@@ -72,7 +57,7 @@ const getAllSchema = {
       type: "array",
       items: {
         type: "object",
-        properties: brandProperties,
+        properties: retailerProperties,
       },
     },
     ...error,
@@ -86,7 +71,7 @@ const createSchema = {
   response: {
     201: {
       type: "object",
-      properties: brandProperties,
+      properties: retailerProperties,
     },
     ...error,
   },
@@ -100,7 +85,7 @@ const updateSchema = {
   response: {
     200: {
       type: "object",
-      properties: brandProperties,
+      properties: retailerProperties,
     },
     ...error,
   },
@@ -113,7 +98,7 @@ const deleteSchema = {
   response: {
     200: {
       type: "object",
-      properties: brandProperties,
+      properties: retailerProperties,
     },
     ...error,
   },

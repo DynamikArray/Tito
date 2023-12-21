@@ -15,7 +15,17 @@
       dense
       @change="handleBrandChange"
       :rules="rules"
-    ></v-combobox>
+      class="brandDropdown"
+    >
+      <template v-slot:item="{ item }" class="grey darken-1">
+        <div class="d-flex flex-grow-1">
+          <div class="d-flex align-center justify-start text-body-1">{{ item.name }}</div>
+          <div class="d-flex align-center justify-start text-caption font-italic ml-1">
+            - {{ item.retailer.name }}
+          </div>
+        </div>
+      </template>
+    </v-combobox>
   </div>
 </template>
 
@@ -28,15 +38,24 @@ export default {
       type: [Boolean, Array],
       default: () => {
         return [];
-      }
-    }
+      },
+    },
+  },
+  getters: {
+    brandName() {
+      return this.brand.name;
+    },
   },
   methods: {
     handleBrandChange(val) {
       this.$emit("update:brand", val);
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style>
+.v-list {
+  background-color: $grey-1;
+}
+</style>

@@ -15,10 +15,8 @@ export default {
   props: {},
   components: { ReportsContainer },
   methods: {
-    print() {
-      console.log("MAKE PDF");
-    }
-  }
+    print() {},
+  },
 };
 </script>
 

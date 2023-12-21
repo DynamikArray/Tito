@@ -15,9 +15,7 @@
         ref="inventoryDT"
       >
         <template v-slot:top="{ pagination }">
-          <div
-            class="dtSlotTop d-flex flex-row align-center justify-space-between pa-1"
-          >
+          <div class="dtSlotTop d-flex flex-row align-center justify-space-between pa-1">
             <div class="d-flex justify-start align-center mx-1">
               <h5 class="mr-3">Search :</h5>
               <v-text-field v-model="search" />
@@ -29,9 +27,7 @@
           <div class="w-100">
             <v-divider class="my-1" />
           </div>
-          <div class="w-100">
-            Total Results Found: {{ pagination.itemsLength }}
-          </div>
+          <div class="w-100">Total Results Found: {{ pagination.itemsLength }}</div>
           <div class="w-100">
             <v-divider class="my-1" />
           </div>
@@ -68,13 +64,13 @@ export default {
   computed: {
     ...mapGetters({
       towels: "towels/getTowels",
-      loading: "towels/getLoading"
-    })
+      loading: "towels/getLoading",
+    }),
   },
   data: () => ({
     search: "",
     headers: tableHeaders,
-    groupBy: "brand.name"
+    groupBy: "brand.name",
   }),
   mounted() {
     this.$store.dispatch(`towels/${SEARCH_TOWELS}`);
@@ -99,7 +95,7 @@ export default {
         footer: function(currentPage, pageCount, pageSize) {
           const opts = { currentPage, pageCount, pageSize };
           return _this.buildReportFooter(opts);
-        }
+        },
       };
 
       pdfMake.createPdf(pdfOptions).open();
@@ -110,7 +106,7 @@ export default {
         return {
           text: `Inventory Report`,
           fontSize: 16,
-          alignment: "center"
+          alignment: "center",
         };
       }
     },
@@ -118,16 +114,14 @@ export default {
       return {
         text: `Page ${currentPage} of ${pageCount}`,
         fontSize: 10,
-        alignment: "center"
+        alignment: "center",
       };
     },
     buildPDFContent(inventoryItems) {
-      console.log(inventoryItems);
-
       inventoryItems.unshift({
         brand: "Brand",
         color: "Color",
-        quantity: "Qty"
+        quantity: "Qty",
       });
 
       return {
@@ -135,29 +129,29 @@ export default {
         table: {
           headerRows: 1,
           widths: [200, "*", 80],
-          body: inventoryItems.map(item => {
+          body: inventoryItems.map((item) => {
             return [
               {
                 text: item.brand.name,
                 alignment: "left",
-                fontSize: 14
+                fontSize: 14,
               },
               {
                 text: item.color,
                 alignment: "left",
-                fontSize: 12
+                fontSize: 12,
               },
               {
                 text: item.quantity,
                 alignment: "left",
-                fontSize: 12
-              }
+                fontSize: 12,
+              },
             ];
-          })
-        }
+          }),
+        },
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

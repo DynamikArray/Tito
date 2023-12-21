@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    width="500"
-    scrollable
-    overlay-color="grey darken-2"
-  >
+  <v-dialog v-model="dialog" width="" scrollable overlay-color="grey darken-2">
     <template v-slot:activator="{ on, attrs }">
       <v-btn small color="secondary" dark v-bind="attrs" v-on="on">
         <v-icon small class="mr-2">fa fa-plus-circle</v-icon>Towel
@@ -20,11 +15,11 @@ import CreateForm from "./_CreateForm";
 
 export default {
   components: {
-    CreateForm
+    CreateForm,
   },
   data: () => ({
-    dialog: false
-  })
+    dialog: false,
+  }),
 };
 </script>
 

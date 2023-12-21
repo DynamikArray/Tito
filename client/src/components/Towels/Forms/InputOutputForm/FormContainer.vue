@@ -22,6 +22,15 @@
           :showForm.sync="showForm"
           :scanMethod="scanMethod"
           :handleSaved="handleSaved"
+          @clearSelectedTowel="clearSelectedTowel"
+        />
+        <TowelTransferForm
+          v-if="showForm === 'TRANSFER'"
+          :selectedTowel.sync="selectedTowel"
+          :showForm.sync="showForm"
+          :scanMethod="scanMethod"
+          :handleSaved="handleSaved"
+          @clearSelectedTowel="clearSelectedTowel"
         />
       </v-slide-y-transition>
     </v-card-text>
@@ -40,32 +49,36 @@
 <script>
 import TowelLookupForm from "./_TowelLookupForm";
 import TowelQuantityForm from "./_TowelQuantityForm";
+import TowelTransferForm from "./_TowelTransferForm";
 
 export default {
   props: {
     dialog: [Boolean],
-    scanMethod: [String]
+    scanMethod: [String],
   },
   components: {
     TowelLookupForm,
-    TowelQuantityForm
+    TowelQuantityForm,
+    TowelTransferForm,
   },
   data: () => ({
     upc: false,
     selectedTowel: false,
-    showForm: "LOOKUP"
+    showForm: "LOOKUP",
   }),
   computed: {
     cardTitle() {
       if (this.scanMethod === "IN") return "Scan In Towel";
       if (this.scanMethod === "OUT") return "Scan Out Towel";
+      if (this.scanMethod === "TRANSFER") return "Transfer Towels";
       return "";
     },
     cardTitleIcon() {
       if (this.scanMethod === "IN") return "fa fa-plus-circle";
       if (this.scanMethod === "OUT") return "fa fa-minus-circle";
+      if (this.scanMethod === "TRANSFER") return "fa fa-exchange-alt";
       return "";
-    }
+    },
   },
   methods: {
     handleCancel() {
@@ -82,8 +95,8 @@ export default {
     clearSelectedTowel() {
       this.selectedTowel = null;
       this.showForm = "LOOKUP";
-    }
-  }
+    },
+  },
 };
 </script>
 

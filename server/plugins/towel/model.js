@@ -10,15 +10,31 @@ const towelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    quantity: {
-      type: Number,
-      required: true,
-    },
     brand: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Brand",
       validateExistance: true,
       required: true,
+    },
+    location: {
+      type: Object,
+      required: true,
+      properties: {
+        home: {
+          type: Object,
+          required: true,
+          properties: {
+            quantity: { type: Number, required: true },
+          },
+        },
+        warehouse: {
+          type: Object,
+          required: true,
+          properties: {
+            quantity: { type: Number, required: true },
+          },
+        },
+      },
     },
   },
   {

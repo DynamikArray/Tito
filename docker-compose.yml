@@ -14,7 +14,7 @@ services:
   reverse-proxy:    
     hostname: traefik-tito
     container_name: traefik-tito
-    image: traefik:v2.9 # The official v2 Traefik docker image
+    image: traefik:v2.10.7 # The official v2 Traefik docker image
     networks: 
       - tito-net   
     # Enables the web UI and tells Traefik to listen to docker

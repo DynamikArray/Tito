@@ -1,18 +1,11 @@
 <template>
   <v-card>
     <v-card-title class="primary headline">
-      <h3 class="white--text textShadow">
-        <v-icon class="mr-2">fa fa-edit</v-icon>Update A Towel
-      </h3>
+      <h3 class="white--text textShadow"><v-icon class="mr-2">fa fa-edit</v-icon>Update A Towel</h3>
     </v-card-title>
 
-    <v-card-text style="max-height:300px;" class="px-4">
-      <v-form
-        ref="createTowelForm"
-        v-model="blnValidTowel"
-        lazy-validation
-        @submit.prevent="validateTowel"
-      >
+    <v-card-text style="" class="px-4">
+      <v-form ref="createTowelForm" v-model="blnValidTowel" lazy-validation @submit.prevent="validateTowel">
         <v-row>
           <v-col cols="7">
             <v-text-field
@@ -28,16 +21,35 @@
               outlined
             ></v-text-field>
           </v-col>
-          <v-col cols="5">
+        </v-row>
+
+        <v-row>
+          <v-col cols="6">
             <v-text-field
               type="number"
-              v-model="towel.quantity"
+              v-model="towel.location.home.quantity"
               autocomplete="off"
               hide-details="auto"
-              class="ml-2"
+              class=""
               dense
-              name="quantity"
-              label="Quanity"
+              name="homeQuantity"
+              label="Home Qty"
+              hint="Enter the starting quantity"
+              :rules="fieldRules.quantity"
+              outlined
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="6">
+            <v-text-field
+              type="number"
+              v-model="towel.location.warehouse.quantity"
+              autocomplete="off"
+              hide-details="auto"
+              class=""
+              dense
+              name="warehouseQuantity"
+              label="Warehouse Qty"
               hint="Enter the starting quantity"
               :rules="fieldRules.quantity"
               outlined
@@ -63,11 +75,7 @@
 
         <v-row>
           <v-col>
-            <BrandDropdown
-              :rules="fieldRules.brand"
-              :brand.sync="towel.brand"
-              :brands="brands"
-            />
+            <BrandDropdown :rules="fieldRules.brand" :brand.sync="towel.brand" :brands="brands" />
           </v-col>
         </v-row>
       </v-form>
@@ -92,29 +100,26 @@ import fieldRules from "../fieldRules";
 
 import { mapGetters } from "vuex";
 import { SEARCH_BRANDS } from "@/components/Brands/store/actionTypes";
-import {
-  SEARCH_TOWELS,
-  UPDATE_TOWEL
-} from "@/components/Towels/store/actionTypes";
+import { SEARCH_TOWELS, UPDATE_TOWEL } from "@/components/Towels/store/actionTypes";
 
 import BrandDropdown from "@/components/Brands/Dropdown/BrandDropdown";
 
 export default {
   props: {
-    towel: [Object]
+    towel: [Object],
   },
   components: {
-    BrandDropdown
+    BrandDropdown,
   },
   data: () => ({
     blnValidTowel: false,
-    fieldRules
+    fieldRules,
   }),
   computed: {
     ...mapGetters({
       brands: "brands/getBrands",
-      loading: "brands/getLoading"
-    })
+      loading: "brands/getLoading",
+    }),
   },
   created() {
     this.$store.dispatch(`brands/${SEARCH_BRANDS}`, {});
@@ -135,10 +140,7 @@ export default {
         towel = { ...towel, brand: towel.brand._id };
       }
 
-      const result = await this.$store.dispatch(
-        `towels/${UPDATE_TOWEL}`,
-        towel
-      );
+      const result = await this.$store.dispatch(`towels/${UPDATE_TOWEL}`, towel);
 
       if (result) {
         this.resetTowel();
@@ -157,8 +159,8 @@ export default {
     },
     updateDialog(val) {
       this.$emit("update:dialog", val);
-    }
-  }
+    },
+  },
 };
 </script>
 

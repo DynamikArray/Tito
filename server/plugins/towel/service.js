@@ -13,7 +13,14 @@ class TowelService {
 
       const newTowel = await towelDoc.save();
       if (newTowel._id) {
-        const towel = await Towel.findById(newTowel._id).populate("brand").lean();
+        const towel = await Towel.findById(newTowel._id)
+          .populate({
+            path: "brand",
+            populate: {
+              path: "retailer",
+            },
+          })
+          .lean();
 
         /*
         await this.audit.log({
@@ -38,7 +45,12 @@ class TowelService {
         color: new RegExp(filter, "i"),
         upc: new RegExp(upc, "i"),
       })
-        .populate("brand")
+        .populate({
+          path: "brand",
+          populate: {
+            path: "retailer",
+          },
+        })
         .sort(sort)
         .lean();
       return towels;
@@ -49,7 +61,14 @@ class TowelService {
 
   async getOne({ id }) {
     try {
-      const towel = await Towel.findById(id).populate("brand").lean();
+      const towel = await Towel.findById(id)
+        .populate({
+          path: "brand",
+          populate: {
+            path: "retailer",
+          },
+        })
+        .lean();
       if (!towel) throw Error("No Towel with that Id found!");
       return towel;
     } catch (err) {
@@ -63,7 +82,12 @@ class TowelService {
 
     try {
       const towelAfter = await Towel.findByIdAndUpdate(towelBefore._id, { $set: { ...towel } }, { new: true })
-        .populate("brand")
+        .populate({
+          path: "brand",
+          populate: {
+            path: "retailer",
+          },
+        })
         .lean();
 
       /*
@@ -83,7 +107,14 @@ class TowelService {
 
   async delete({ id }) {
     try {
-      const towel = await Towel.findByIdAndDelete(id).populate("brand").lean();
+      const towel = await Towel.findByIdAndDelete(id)
+        .populate({
+          path: "brand",
+          populate: {
+            path: "retailer",
+          },
+        })
+        .lean();
       if (!towel) return { error: "Towel with that Id, not found!" };
 
       /*

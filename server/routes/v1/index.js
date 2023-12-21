@@ -13,7 +13,10 @@ const apiRoutes = async (fastify, options) => {
   await fastify.register(require("../../plugins/brand"), {
     prefix: "v1/brand",
   });
-
+  //retailers
+  await fastify.register(require("../../plugins/retailer"), {
+    prefix: "v1/retailer",
+  });
   //auditLog
   await fastify.register(require("../../plugins/audit"), {
     prefix: "v1/audit",
