@@ -19,6 +19,7 @@
       <div class="d-flex justify-end align-center my-3 mx-3">
         <AddTowelModal class="d-flex mx-2" />
         <AddBrandModal class="d-flex mx-2" />
+        <AddRetailerModal class="d-flex mx-2" />
       </div>
     </div>
 
@@ -38,6 +39,7 @@ import TowelsGrid from "./TowelsGrid/TowelsGrid";
 
 import AddTowelModal from "./Forms/CreateTowel/CreateModal";
 import AddBrandModal from "@/components/Brands/CreateBrand/CreateModal";
+import AddRetailerModal from "@/components/Retailers/CreateRetailer/CreateModal";
 
 export default {
   props: {
@@ -50,6 +52,7 @@ export default {
     TowelsGrid,
     AddTowelModal,
     AddBrandModal,
+    AddRetailerModal,
   },
   mounted() {
     this.$store.dispatch(`towels/${SEARCH_TOWELS}`, { sort: "-quantity" });

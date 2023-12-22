@@ -93,11 +93,18 @@
         <v-col cols="12" class="pb-0 pt-0">
           <div class="d-flex alig-center justify-center align-items-center pa-3">
             <div class="d-flex align-center justify-center mx-3">
-              <v-btn :disabled="!blnValid" type="submit" large color="secondary" @click.prevent="handleSave"
+              <v-btn
+                :disabled="!blnValid"
+                type="submit"
+                large
+                color="secondary"
+                @click.prevent="preSaveChecks"
                 ><v-icon class="mr-2">fa fa-save</v-icon>{{ actionTitle }}</v-btn
               >
             </div>
           </div>
+
+          <ConfirmDialog ref="confirm" />
         </v-col>
       </v-row>
     </v-form>
@@ -106,6 +113,7 @@
 
 <script>
 import { SEARCH_TOWELS, UPDATE_TOWEL } from "@/components/Towels/store/actionTypes";
+import ConfirmDialog from "@/components/ConfirmDialog/ConfirmDialog.vue";
 
 import SelectedTowel from "./fields/SelectedTowel";
 import fieldRules from "../fieldRules";
@@ -123,6 +131,7 @@ export default {
   },
   components: {
     SelectedTowel,
+    ConfirmDialog,
   },
   data: () => ({
     blnValid: false,
@@ -135,6 +144,7 @@ export default {
     actionTitle() {
       if (this.scanMethod === "IN") return "Add";
       if (this.scanMethod === "OUT") return "Subtract";
+      if (this.scanMethod === "TRANSFER") return "Transfer";
       return "";
     },
     destinationLocation() {
@@ -149,6 +159,19 @@ export default {
     },
     validate() {
       return this.$refs.transferTowelForm.validate();
+    },
+
+    buildConfirmLocationAmountsString() {
+      return `Are you sure you want to transfer ${this.transferQuantity} towels <br />
+      From: <b>${this.fromLocation.text} </b> <br/>
+      To: <b>${this.destinationLocation.text}</b>`;
+    },
+
+    async preSaveChecks() {
+      if (!this.validate()) return false;
+      if (await this.$refs.confirm.open("Confirm", this.buildConfirmLocationAmountsString())) {
+        this.handleSave();
+      }
     },
 
     async handleSave() {

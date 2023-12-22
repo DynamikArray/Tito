@@ -60,10 +60,11 @@
             </v-form>
           </div>
           <div class="d-flex align-center justify-center mx-3">
-            <v-btn :disabled="!blnValid" type="submit" large color="secondary" @click.prevent="handleSave"
+            <v-btn :disabled="!blnValid" type="submit" large color="secondary" @click.prevent="preSaveChecks"
               ><v-icon class="mr-2">fa fa-save</v-icon>{{ actionTitle }}</v-btn
             >
           </div>
+          <ConfirmDialog ref="confirm" />
         </div>
       </v-col>
     </v-row>
@@ -72,6 +73,8 @@
 
 <script>
 import { SEARCH_TOWELS, UPDATE_TOWEL } from "@/components/Towels/store/actionTypes";
+
+import ConfirmDialog from "@/components/ConfirmDialog/ConfirmDialog.vue";
 
 import SelectedTowel from "./fields/SelectedTowel";
 import fieldRules from "../fieldRules";
@@ -89,6 +92,7 @@ export default {
   },
   components: {
     SelectedTowel,
+    ConfirmDialog,
   },
   data: () => ({
     blnValid: false,
@@ -111,8 +115,28 @@ export default {
     validate() {
       return this.$refs.inputOutputTowelForm.validate();
     },
-    async handleSave() {
+
+    buildConfirmLocationAmountsString() {
+      const { selectedLocation, selectedQuantity } = this;
+
+      switch (this.scanMethod) {
+        case "IN":
+          return `Are you sure you want to ${this.actionTitle} ${selectedQuantity} towels to ${selectedLocation.text}?`;
+        case "OUT":
+          return `Are you sure you want to ${this.actionTitle} ${selectedQuantity} towels from ${selectedLocation.text}?`;
+      }
+
+      return `Are you sure you want to ${this.actionTitle} these towels?`;
+    },
+
+    async preSaveChecks() {
       if (!this.validate()) return false;
+      if (await this.$refs.confirm.open("Confirm", this.buildConfirmLocationAmountsString())) {
+        this.handleSave();
+      }
+    },
+
+    async handleSave() {
       const { selectedLocation, selectedQuantity, selectedTowel } = this;
 
       let towel = false;

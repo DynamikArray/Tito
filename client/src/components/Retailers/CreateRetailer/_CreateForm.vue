@@ -1,32 +1,27 @@
 <template>
   <v-card>
     <v-card-title class="primary headline">
-      <v-icon class="mr-2">fa fa-plus-circle</v-icon>Add A New Brand
+      <v-icon class="mr-2">fa fa-plus-circle</v-icon>Add A New Retailer
     </v-card-title>
 
     <v-card-text style="max-height:300px;" class="px-4">
-      <v-form ref="createBrandForm" v-model="blnValidBrand" lazy-validation @submit.prevent="validateBrand">
-        <v-row>
-          <v-col>
-            <RetailerDropdown
-              autofocus
-              :rules="fieldRules.retailer"
-              :retailers="retailers"
-              @update:retailer="brand.retailer = $event"
-            />
-          </v-col>
-        </v-row>
-
+      <v-form
+        ref="createRetailerForm"
+        v-model="blnValidRetailer"
+        lazy-validation
+        @submit.prevent="validateRetailer"
+      >
         <v-row>
           <v-col>
             <v-text-field
-              v-model="brand.name"
+              autofocus
+              v-model="retailer.name"
               autocomplete="off"
               hide-details="auto"
               dense
               name="name"
-              label="Brand Name"
-              hint="Enter the Brand name"
+              label="Retailer Name"
+              hint="Enter the Retailer name"
               outlined
               :rules="fieldRules.name"
             ></v-text-field>
@@ -52,12 +47,10 @@
 <script>
 import { mapGetters } from "vuex";
 import { SEARCH_RETAILERS } from "@/components/Retailers/store/actionTypes";
-import { CREATE_BRAND, SEARCH_BRANDS } from "@/components/Brands/store/actionTypes";
-import RetailerDropdown from "@/components/Retailers/Dropdown/RetailerDropdown.vue";
+import { CREATE_RETAILER } from "@/components/Retailers/store/actionTypes";
 
-const defaultBrand = {
+const defaultRetailer = {
   name: "",
-  retailer: { _id: "", name: "" },
 };
 import fieldRules from "./fieldRules";
 
@@ -65,10 +58,10 @@ export default {
   props: {
     dialog: [Boolean],
   },
-  components: { RetailerDropdown },
+  components: {},
   data: () => ({
-    blnValidBrand: false,
-    brand: { ...defaultBrand },
+    blnValidRetailer: false,
+    retailer: { ...defaultRetailer },
     fieldRules,
   }),
   computed: {
@@ -80,33 +73,29 @@ export default {
     this.$store.dispatch(`retailers/${SEARCH_RETAILERS}`, {});
   },
   methods: {
-    validateBrand() {
-      return this.$refs.createBrandForm.validate();
+    validateRetailer() {
+      return this.$refs.createRetailerForm.validate();
     },
 
     async handleSave() {
-      if (!this.validateBrand()) return false;
+      if (!this.validateRetailer()) return false;
 
-      const { brand } = this;
-      const result = await this.$store.dispatch(`brands/${CREATE_BRAND}`, brand);
+      const { retailer } = this;
+      const result = await this.$store.dispatch(`retailers/${CREATE_RETAILER}`, retailer);
+
       if (result) {
-        await this.$store.dispatch(`brands/${SEARCH_BRANDS}`, {});
-        this.resetBrand();
-        this.$toastr.s("Brand Added");
+        this.resetRetailer();
+        this.$toastr.s("Retailer Added");
         this.updateDialog(false);
       }
     },
     handleCancel() {
-      this.resetBrand();
+      this.resetRetailer();
       this.updateDialog(false);
-      this.resetValidation();
     },
-    resetBrand() {
-      this.blnValidBrand = false;
-      this.brand = { ...defaultBrand };
-    },
-    resetValidation() {
-      this.$refs.createBrandForm.resetValidation();
+    resetRetailer() {
+      this.blnValidRetailer = false;
+      this.retailer = { ...defaultRetailer };
     },
     updateDialog(val) {
       this.$emit("update:dialog", val);

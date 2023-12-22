@@ -5,7 +5,7 @@ export default {
   quantity: [
     (v) => !!Number(v) >= 1 || "Qty must be number greater than 0.",
     (v) => {
-      if (v % 0.25 !== 0) return "Fractional numbers must only be in .25 steps";
+      if (v % 1 !== 0) return "Whole numbers only";
       return true;
     },
   ],
