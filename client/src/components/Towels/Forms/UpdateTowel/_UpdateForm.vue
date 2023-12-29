@@ -35,7 +35,7 @@
               name="homeQuantity"
               label="Home Qty"
               hint="Enter the starting quantity"
-              :rules="fieldRules.quantity"
+              :rules="fieldRules.zeroQuantity"
               outlined
             ></v-text-field>
           </v-col>
@@ -51,7 +51,7 @@
               name="warehouseQuantity"
               label="Warehouse Qty"
               hint="Enter the starting quantity"
-              :rules="fieldRules.quantity"
+              :rules="fieldRules.zeroQuantity"
               outlined
             ></v-text-field>
           </v-col>

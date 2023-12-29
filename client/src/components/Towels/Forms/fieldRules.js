@@ -9,6 +9,14 @@ export default {
       return true;
     },
   ],
+
+  zeroQuantity: [
+    (v) => {
+      if (v % 1 !== 0) return "Whole numbers only";
+      return true;
+    },
+  ],
+
   color: [(v) => !!v || "Color is a required field"],
   brand: [
     (v) => {
