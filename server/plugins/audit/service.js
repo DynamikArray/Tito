@@ -11,10 +11,8 @@ class AuditService {
       const logs = await Audit.find({
         action: new RegExp(action, "i"),
       })
-        .populate({
-          path: "_brand,  _towel",
-          populate: { path: "brand", model: "Brand" },
-        })
+        .populate("_brand")
+        .populate("_towel")
         .sort(sort)
         .lean();
       return logs;

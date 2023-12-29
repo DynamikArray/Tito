@@ -22,14 +22,12 @@ class TowelService {
           })
           .lean();
 
-        /*
         await this.audit.log({
           action: "CREATE_TOWEL",
           resourceModel: "towel",
           _towel: towel._id,
           values: towel,
         });
-        */
 
         return towel;
       }
@@ -90,14 +88,12 @@ class TowelService {
         })
         .lean();
 
-      /*
       await this.audit.log({
         action: "UPDATE_TOWEL",
         resourceModel: "towel",
         _towel: towel._id,
         values: { towelBefore, towelAfter },
       });
-      */
 
       return towelAfter;
     } catch (err) {
@@ -117,14 +113,12 @@ class TowelService {
         .lean();
       if (!towel) return { error: "Towel with that Id, not found!" };
 
-      /*
       await this.audit.log({
         action: "DELETE_TOWEL",
         resourceModel: "towel",
         _towel: towel._id,
         values: towel,
       });
-      */
 
       return towel;
     } catch (err) {

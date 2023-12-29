@@ -10,6 +10,7 @@ class BrandService {
   async create({ brand }) {
     try {
       const newBrand = await Brand.create(brand);
+
       /*
       await this.audit.log({
         action: "CREATE_BRAND",
@@ -18,6 +19,7 @@ class BrandService {
         values: newBrand,
       });
       */
+
       return newBrand;
     } catch (err) {
       throw err;

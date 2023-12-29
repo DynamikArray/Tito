@@ -1,17 +1,9 @@
 <template>
   <div class="w-100">
-    <v-data-table
-      :headers="headers"
-      :loading="loading"
-      loading-text="Searching Database"
-      :items="logData"
-    >
+    <v-data-table :headers="headers" :loading="loading" loading-text="Searching Database" :items="logData">
       <template v-slot:item._towel="{ item }">
         <div class="d-flex align-center justify-start text-caption pa-1">
-          <div
-            class="mr-5 align-center justify-center text-h6"
-            style="min-width:100px"
-          >
+          <div class="mr-5 align-center justify-center text-h6" style="min-width:100px">
             {{ item._towel.quantity }}
           </div>
           <div class="d-flex flex-column align-start justify-start pa-1">
@@ -49,34 +41,32 @@ import { tableHeaders } from "./tableHeaders";
 export default {
   props: {
     logs: [Boolean, Array],
-    loading: [Boolean]
+    loading: [Boolean],
   },
   data: () => ({
-    headers: tableHeaders
+    headers: tableHeaders,
   }),
   computed: {
     logData() {
       return this.logs;
-    }
+    },
   },
   methods: {
     formatLogEntry({ values }) {
       const { towelBefore = false, towelAfter = false } = values;
       if (towelBefore && towelAfter) {
-        const fields = diff(towelBefore, towelAfter).filter(
-          entry => entry.path != "updatedAt"
-        );
+        const fields = diff(towelBefore, towelAfter).filter((entry) => entry.path != "updatedAt");
 
-        return (values = fields.map(entry => {
+        return (values = fields.map((entry) => {
           return {
-            msg: `${entry.path} updated from ${entry.lhs ||
-              "empty"} to ${entry.rhs || "empty"}`
+            msg: `${entry.path} updated from ${entry.lhs || "empty"} to ${JSON.stringify(entry.rhs) ||
+              "empty"}`,
           };
         })).pop();
       }
       return values;
-    }
-  }
+    },
+  },
 };
 </script>
 
