@@ -24,7 +24,7 @@
               ref="inputOutputTowelForm"
               v-model="blnValid"
               lazy-validation
-              @submit.prevent="validate"
+              @submit.prevent="preSaveChecks"
             >
               <v-combobox
                 autocomplete="off"
@@ -55,7 +55,7 @@
                 height="60px"
                 min-width="140px"
                 :rules="fieldRules.quantity"
-                @keydown.enter="handleSave"
+                @keydown.enter="preSaveChecks"
               ></v-text-field>
             </v-form>
           </div>
